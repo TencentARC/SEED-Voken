@@ -151,7 +151,7 @@ bash scripts/evaluation/evaluation_original.sh
 | Cosmos | FSQ | - | 16 | 256 $\times$ 256 | 64000 | - | 11.97 | 19.22 | 0.48 | 4.57 | 19.93 | 0.49 |
 | Open-MAGVIT2 | LFQ | 100M | 16 | 256 $\times$ 256 | 16384 | [Pretrain_256_16384](https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-16384-Pretrain/blob/main/pretrain256_16384.ckpt) |7.93 | 22.21 | 0.62 | 2.55 | 22.21 | 0.62 |
 | **Open-MAGVIT2** | LFQ | 100M | 16 | 256 $\times$ 256 | 262144 | [Pretrain_256_262144](https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-262144-Pretrain/blob/main/pretrain256_262144.ckpt) | **6.76** | **22.31** | **0.65** | **1.67** | **22.70** | **0.64** |
-| Cosmos | FSQ | - | 16 | Original | 640000 | - | 7.51 | 20.45 | 0.52 | 1.93 | 20.56 | 0.51 |
+| Cosmos | FSQ | - | 16 | Original | 64000 | - | 7.51 | 20.45 | 0.52 | 1.93 | 20.56 | 0.51 |
 | Open-MAGVIT2 | LFQ | 100M | 16 | Original | 16384 | [Pretrain_256_16384](https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-16384-Pretrain/blob/main/pretrain256_16384.ckpt) | 6.65 | 21.61 | 0.57 | 1.39 | 21.74 | 0.56 |
 | **Open-MAGVIT2** | LFQ | 100M | 16 | Original | 262144 | [Pretrain_256_262144](https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-262144-Pretrain/blob/main/pretrain256_262144.ckpt) | **5.10** | **22.18** | **0.60** | **0.78** | **22.24** | **0.59** |
 
