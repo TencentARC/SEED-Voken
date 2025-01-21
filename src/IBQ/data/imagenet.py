@@ -117,7 +117,8 @@ class ImageNetBase(Dataset):
         self.data = ImagePaths(self.abspaths,
                                labels=labels,
                                size=retrieve(self.config, "size", default=0),
-                               random_crop=self.random_crop)
+                               random_crop=self.random_crop,
+                               original_reso = retrieve(self.config, "original_reso", default=False))
 
 
 class ImageNetTrain(ImageNetBase):

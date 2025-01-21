@@ -21,9 +21,10 @@ class ConcatDatasetWithIndex(ConcatDataset):
 
 
 class ImagePaths(Dataset):
-    def __init__(self, paths, size=None, random_crop=False, labels=None):
+    def __init__(self, paths, original_reso=False, size=None, random_crop=False, labels=None):
         self.size = size
         self.random_crop = random_crop
+        self.original_reso = original_reso
 
         self.labels = dict() if labels is None else labels
         self.labels["file_path_"] = paths
@@ -47,7 +48,8 @@ class ImagePaths(Dataset):
         if not image.mode == "RGB":
             image = image.convert("RGB")
         image = np.array(image).astype(np.uint8)
-        image = self.preprocessor(image=image)["image"]
+        if not self.original_reso:
+            image = self.preprocessor(image=image)["image"]
         image = (image/127.5 - 1.0).astype(np.float32)
         return image
 

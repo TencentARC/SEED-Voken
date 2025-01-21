@@ -62,15 +62,24 @@ class DataModuleFromConfig(L.LightningDataModule):
             instantiate_from_config(data_cfg)
 
     def setup(self, stage=None):
-        self.datasets = dict(
-            (k, instantiate_from_config(self.dataset_configs[k]))
-            for k in self.dataset_configs)
+        self.datasets = dict()
+        for k in self.dataset_configs:
+            if "pretrain" not in self.dataset_configs[k]["target"]: ##laion should use webdataset
+                self.datasets[k] = instantiate_from_config(self.dataset_configs[k])
+            else:
+                self.datasets[k] = instantiate_from_config(self.dataset_configs[k]).create_dataset()
         if self.wrap:
             for k in self.datasets:
                 self.datasets[k] = WrappedDataset(self.datasets[k])
 
     def _train_dataloader(self):
-        return DataLoader(self.datasets["train"], batch_size=self.batch_size,
+        """
+        laion serves as the train loader
+        """
+        if "pretrain" in self.dataset_configs["train"]["target"]: ## webdataset no need for shuffle=True
+            return DataLoader(self.datasets["train"], batch_size=self.batch_size, num_workers=self.num_workers, pin_memory=True)
+        else:
+            return DataLoader(self.datasets["train"], batch_size=self.batch_size,
                           num_workers=self.num_workers, shuffle=True, collate_fn=custom_collate, pin_memory=True)
 
     def _val_dataloader(self):

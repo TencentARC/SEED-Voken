@@ -13,5 +13,8 @@ echo $MASTER_PORT
 ##NPU
 NODE_RANK=$NODE_RANK python main.py fit --config configs/Open-MAGVIT2/npu/imagenet_lfqgan_256_L.yaml
 
+##Pretrain
+# NODE_RANK=$NODE_RANK python main.py fit --config configs/Open-MAGVIT2/npu/pretrain_lfqgan_256_262144.yaml
+
 ###GPU
 # NODE_RANK=$NODE_RANK python main.py fit --config configs/Open-MAGVIT2/gpu/imagenet_lfqgan_256_L.yaml

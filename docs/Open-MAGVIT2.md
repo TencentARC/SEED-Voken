@@ -33,44 +33,46 @@ This is the official repository for Open-MAGVIT2, an open-source project re-impl
 This repository provides the scripts and checkpoints to replicate our results.
 
 
-### 🎤 TODOs
-* [ &#10004; ] Better image tokenizer with scale-up training.
-* [ &#10004; ] Finalize the training of the autoregressive model.
-* [ ] Video tokenizer and the corresponding autoregressive model.
+### 🎤 Features
+* A series of image tokenizer for class-conditional image generation (8 $\times$ and 16 $\times$ downsampling rate with 2^18 codebook size) and text-conditional image generation (2^14 and 2^18 codebook size with 256 $\times$ 256 resolution).
+* A family of the autoregressive model ranging from 300M to 1.5B for class-conditional image generation.
 
-**🤗 Open-MAGVIT2 is still at an early stage and under active development. Stay tuned for the update!**
+**🤗 Open-MAGVIT2 is still under active development. Stay tuned for the update!**
 
 ---
 
 ## 🔥 Quick Start
 <!-- * `Stage I Tokenizer Training`: -->
 
-### Stage I: Training of Visual Tokenizer
+### Class Conditional Image Generation
 
-#### 🚀 Training Scripts
-* $128\times 128$ Tokenizer Training
+#### Stage I: Training of Visual Tokenizer
+
+##### 🚀 Training Scripts
+- ###### $128\times 128$ Tokenizer Training
 ```
 bash scripts/train_tokenizer/Open-MAGVIT2/run_128_L.sh MASTER_ADDR MASTER_PORT NODE_RANK
 ```
 
-* $256\times 256$ Tokenizer Training
+- ###### $256\times 256$ Tokenizer Training
 ```
-bash scripts/train_tokenizer/run_256_L.sh MASTER_ADDR MASTER_PORT NODE_RANK
+bash scripts/train_tokenizer/Open-MAGVIT/run_256_L.sh MASTER_ADDR MASTER_PORT NODE_RANK
 ```
-#### 🚀 Evaluation Scripts
-* $128\times 128$ Tokenizer Evaluation
+##### 🚀 Evaluation Scripts
+
+- ###### $128\times 128$ Tokenizer Evaluation
 ```
 bash scripts/evaluation/evaluation_128.sh
 ```
 
-* $256\times 256$ Tokenizer Evaluation
+- ###### $256\times 256$ Tokenizer Evaluation
 ```
 bash scripts/evaluation/evaluation_256.sh
 ```
 
-#### 🍺 Performance and Models
+##### 🍺 Performance and Models
 
-**Tokenizer** 
+###### Tokenizer 
 
 | Method | Token Type | #Tokens | Train Data | Codebook Size | rFID | PSNR  | Codebook Utilization | Checkpoint |
 |:------:|:----:|:-----:|:-----:|:-------------:|:----:|:----:|:---------------------:|:----:|
@@ -81,23 +83,75 @@ bash scripts/evaluation/evaluation_256.sh
 |Open-MAGVIT2*| 2D | 32 $\times$ 32 | 128 $\times$ 128 ImageNet | 262144 | **0.34** | **26.19** | **100%** |above|
 
 (*) denotes that the results are from the direct inference using the model trained with $128 \times 128$ resolution without fine-tuning.
-### Stage II: Training of Auto-Regressive Models
+#### Stage II: Training of Auto-Regressive Models
 
-#### 🚀 Training Scripts
+##### 🚀 Training Scripts
 Please see in scripts/train_autogressive/run.sh for different model configurations.
 ```
 bash scripts/train_autogressive/run.sh MASTER_ADDR MASTER_PORT NODE_RANK
 ```
 
-#### 🚀 Sample Scripts
+##### 🚀 Sample Scripts
 Please see in scripts/train_autogressive/run.sh for different sampling hyper-parameters for different scale of models.
 ```
 bash scripts/evaluation/sample_npu.sh or scripts/evaluation/sample_gpu.sh Your_Total_Rank
 ```
 
-#### 🍺 Performance and Models
+##### 🍺 Performance and Models
 | Method | Params| #Tokens | FID | IS | Checkpoint |
 |:------:|:-----:|:-------:|:---:|:--:|:----------:|
 |Open-MAGVIT2| 343M | 16 $\times$ 16 | 3.08 | 258.26 | [AR_256_B](https://huggingface.co/TencentARC/Open-MAGVIT2-AR-B-256-resolution/blob/main/AR_256_B.ckpt)|
 |Open-MAGVIT2| 804M | 16 $\times$ 16 | 2.51 | 271.70 | [AR_256_L](https://huggingface.co/TencentARC/Open-MAGVIT2-AR-L-256-resolution/blob/main/AR_256_L.ckpt)|
 |Open-MAGVIT2| 1.5B | 16 $\times$ 16 | 2.33 | 271.77 | [AR_256_XL](https://huggingface.co/TencentARC/Open-MAGVIT2-AR-XL-256-resolution/blob/main/AR_256_XL.ckpt)|
+
+### Text-conditional Image Generation
+
+#### Stage I: Training of Visual Tokenizer
+
+##### Data Preparation
+We use LAION-COCO, CC12M, CC3M, LAION-HD, LAION-Aesthetic-umap, LAION-Aesthetic-v2 and JourneyDB for Pretraining. We recommend the data are organized in the following tar format.
+```
+data
+└── LAION_COCO/
+    ├── webdataset
+        ├── 1.tar
+        ├── 2.tar
+        ├── 3.tar
+        ├── ...
+└── CC12M/
+    ├── webdataset
+        ├── 1.tar
+        ├── 2.tar
+        ├── 3.tar
+        ├── ...
+```
+Before pretraining, the sample.json and filter_keys.json of each datasets should be prepared. Please refer to **src/Open_MAGVIT2/data/prepare_pretrain.py**
+
+##### 🚀 Training Scripts
+```
+bash scripts/train_tokenizer/Open-MAGVIT2/run_256_L.sh MASTER_ADDR MASTER_PORT NODE_RANK
+```
+
+##### 🚀 Evaluation Scripts
+- ###### $256\times 256$ Tokenizer Evaluation
+```
+bash scripts/evaluation/evaluation_256.sh
+```
+
+- ###### Original Resolution Tokenizer Evaluation
+```
+bash scripts/evaluation/evaluation_original.sh
+```
+
+##### 🍺 Performance comparison and Models
+| Method | Quantizer Type | Training Data | Ratio | Resolution | Codebook Size | Checkpoint | rFID(COCO) | PSNR(COCO) | SSIM(COCO) | rFID(In1k) | PSNR(In1k) | SSIM(In1k) |
+|:------:|:-----:|:-------:|:---:|:--:|:----------:|:--------:|:-------:|:-----:|:-----:|:-----:|:----:|:------:|
+| LlamaGen | VQ | 70M | 16 | 256 $\times$ 256 | 16384 | - | 8.40 | 20.28 | 0.55 | 2.47 | 20.65 | 0.54 |
+| Show-o | LFQ | 35M | 16 | 256 $\times$ 256 | 8192 | - | 9.26 | 20.90 | 0.59 | 3.50 | 21.34 | 0.59 |
+| Cosmos | FSQ | - | 16 | 256 $\times$ 256 | 64000 | - | 11.97 | 19.22 | 0.48 | 4.57 | 19.93 | 0.49 |
+| Open-MAGVIT2 | LFQ | 100M | 16 | 256 $\times$ 256 | 16384 | [Pretrain_256_16384](https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-16384-Pretrain/blob/main/pretrain256_16384.ckpt) |7.93 | 22.21 | 0.62 | 2.55 | 22.21 | 0.62 |
+| **Open-MAGVIT2** | LFQ | 100M | 16 | 256 $\times$ 256 | 262144 | [Pretrain_256_262144](https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-262144-Pretrain/blob/main/pretrain256_262144.ckpt) | **6.76** | **22.31** | **0.65** | **1.67** | **22.70** | **0.64** |
+| Cosmos | FSQ | - | 16 | Original | 640000 | - | 7.51 | 20.45 | 0.52 | 1.93 | 20.56 | 0.51 |
+| Open-MAGVIT2 | LFQ | 100M | 16 | Original | 16384 | above | 6.65 | 21.61 | 0.57 | 1.39 | 21.74 | 0.56 |
+| **Open-MAGVIT2** | LFQ | 100M | 16 | Original | 262144 | above | **5.10** | **22.18** | **0.60** | **0.78** | **22.24** | **0.59** |
+

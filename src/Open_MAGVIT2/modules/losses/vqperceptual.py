@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 from src.Open_MAGVIT2.modules.losses.lpips import LPIPS
-from src.Open_MAGVIT2.modules.discriminator.model import NLayerDiscriminator, weights_init
+from src.Open_MAGVIT2.modules.discriminator.model import NLayerDiscriminator, weights_init, NLayerDiscriminatorv2
 
 
 class DummyLoss(nn.Module):
@@ -90,7 +90,8 @@ class VQLPIPSWithDiscriminator(nn.Module):
                  disc_num_layers=3, disc_in_channels=3, disc_factor=1.0, disc_weight=1.0,
                  commit_weight = 0.25, codebook_enlarge_ratio=3, codebook_enlarge_steps=2000,
                  perceptual_weight=1.0, use_actnorm=False, disc_conditional=False,
-                 disc_ndf=64, disc_loss="hinge", gen_loss_weight=None, lecam_loss_weight=None):
+                 disc_ndf=64, disc_loss="hinge", gen_loss_weight=None, lecam_loss_weight=None, use_blur=False,
+                 disc_num_channels=3, disc_num_stages=4, disc_hidden_channels=128, blur_resample=True, blur_kernel_size=4):
         super().__init__()
         assert disc_loss in ["hinge", "vanilla", "non_saturate"]
         self.codebook_weight = codebook_weight
@@ -105,11 +106,23 @@ class VQLPIPSWithDiscriminator(nn.Module):
         if self.lecam_loss_weight is not None:
             self.lecam_ema = LeCAM_EMA()
         
-        self.discriminator = NLayerDiscriminator(input_nc=disc_in_channels,
-                                                 n_layers=disc_num_layers,
-                                                 use_actnorm=use_actnorm,
-                                                 ndf=disc_ndf
-                                                 ).apply(weights_init)
+        if not use_blur:
+            self.discriminator = NLayerDiscriminator(
+                                                    input_nc=disc_in_channels,
+                                                    n_layers=disc_num_layers,
+                                                    use_actnorm=use_actnorm,
+                                                    ndf=disc_ndf
+                                                    ).apply(weights_init)
+            print("Use the Discriminator without Bluring")
+        else:
+            self.discriminator = NLayerDiscriminatorv2(
+                                                    num_channels=disc_num_channels,
+                                                    num_stages=disc_num_stages,
+                                                    hidden_channels=disc_hidden_channels,
+                                                    blur_resample=blur_resample,
+                                                    blur_kernel_size=blur_kernel_size          
+                                                    )
+            print("Use the Discriminator with Blur")
 
         self.discriminator_iter_start = disc_start
         if disc_loss == "hinge":

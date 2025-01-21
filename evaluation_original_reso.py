@@ -1,8 +1,10 @@
 """
 We provide Tokenizer Evaluation code here.
+Following Cosmos, we use original resolution to evaluate
 Refer to 
 https://github.com/richzhang/PerceptualSimilarity
 https://github.com/mseitzer/pytorch-fid
+https://github.com/NVIDIA/Cosmos-Tokenizer/blob/main/cosmos_tokenizer/image_lib.py
 """
 
 import os
@@ -21,10 +23,8 @@ import numpy as np
 from PIL import Image
 from tqdm import tqdm
 from scipy import linalg
-#### Note When using original imagenet setup
-from src.Open_MAGVIT2.models.lfqgan import VQModel
-### When using pretrain setup
-# from src.Open_MAGVIT2.models.lfqgan_pretrain import VQModel
+
+from src.Open_MAGVIT2.models.lfqgan_pretrain import VQModel
 from src.IBQ.models.ibqgan import IBQ
 from metrics.inception import InceptionV3
 import lpips
@@ -140,20 +140,62 @@ def calculate_frechet_distance(mu1, sigma1, mu2, sigma2, eps=1e-6):
 
     return diff.dot(diff) + np.trace(sigma1) + np.trace(sigma2) - 2 * tr_covmean
 
+def pad_images(batch, spatial_align = 16):
+    """Pads a batch of images to be divisible by `spatial_align`.
+
+    Args:
+        batch: The batch of images to pad, layout BxHxWx3, in any range.
+        align: The alignment to pad to.
+    Returns:
+        The padded batch and the crop region.
+    """
+    height, width = batch.shape[2:4]
+    align = spatial_align
+    height_to_pad = (align - height % align) if height % align != 0 else 0
+    width_to_pad = (align - width % align) if width % align != 0 else 0
+
+    crop_region = [
+        height_to_pad >> 1,
+        width_to_pad >> 1,
+        height + (height_to_pad >> 1),
+        width + (width_to_pad >> 1),
+    ]
+    batch = torch.nn.functional.pad(
+        batch,
+        (width_to_pad >> 1,  width_to_pad - (width_to_pad >> 1), height_to_pad >> 1, height_to_pad - (height_to_pad >> 1), 0, 0, 0, 0),
+        "constant", 0
+    )
+    return batch, crop_region
+
+def unpad_images(batch, crop_region):
+    """Unpads image with `crop_region`.
+
+    Args:
+        batch: A batch of numpy images, layout BxHxWxC.
+        crop_region: [y1,x1,y2,x2] top, left, bot, right crop indices.
+
+    Returns:
+        np.ndarray: Cropped numpy image, layout BxHxWxC.
+    """
+    assert len(crop_region) == 4, "crop_region should be len of 4."
+    y1, x1, y2, x2 = crop_region
+    return batch[:, :, y1:y2, x1:x2]
+
+
 def get_args():
     parser = argparse.ArgumentParser(description="inference parameters")
     parser.add_argument("--config_file", required=True, type=str)
     parser.add_argument("--ckpt_path", required=True, type=str)
-    parser.add_argument("--image_size", default=128, type=int)
     parser.add_argument("--batch_size", default=4, type=int)
+    parser.add_argument("--original_reso", action="store_true")
     parser.add_argument("--model", choices=["Open-MAGVIT2", "IBQ"])
 
     return parser.parse_args()
 
 def main(args):
     config_data = OmegaConf.load(args.config_file)
-    config_data.data.init_args.validation.params.config.size = args.image_size
     config_data.data.init_args.batch_size = args.batch_size
+    config_data.data.init_args.validation.params.config.original_reso = args.original_reso
 
     config_model = load_config(args.config_file, display=False)
     model = load_vqgan_new(config_model, model_type=args.model, ckpt_path=args.ckpt_path).to(DEVICE) #please specify your own path here
@@ -163,7 +205,6 @@ def main(args):
     usage = {}
     for i in range(codebook_size):
         usage[i] = 0
-
 
     # FID score related
     dims = 2048
@@ -177,12 +218,6 @@ def main(args):
     pred_xs = []
     pred_recs = []
 
-    # LPIPS score related
-    loss_fn_alex = lpips.LPIPS(net='alex').to(DEVICE)  # best forward scores
-    loss_fn_vgg = lpips.LPIPS(net='vgg').to(DEVICE)   # closer to "traditional" perceptual loss, when used for optimization
-    lpips_alex = 0.0
-    lpips_vgg = 0.0
-
     # SSIM score related
     ssim_value = 0.0
 
@@ -191,10 +226,14 @@ def main(args):
 
     num_images = 0
     num_iter = 0
+
     with torch.no_grad():
         for batch in tqdm(dataset._val_dataloader()):
-            images = batch["image"].permute(0, 3, 1, 2).to(DEVICE)
+            images = batch["image"].permute(0, 3, 1, 2).to(DEVICE) # (B, 3, H, W)
             num_images += images.shape[0]
+
+            ###### algin with cosmos original resolution
+            images, crop_region = pad_images(images)
 
             if model.use_ema:
                 with model.ema_scope():
@@ -211,16 +250,15 @@ def main(args):
                 reconstructed_images = model.decode(quant)
 
             reconstructed_images = reconstructed_images.clamp(-1, 1)
+
+            ###### algin with cosmos
+            reconstructed_images = unpad_images(reconstructed_images, crop_region)
+            images = unpad_images(images, crop_region)
             
             ### usage
             for index in indices:
                 usage[index.item()] += 1
             
-            # calculate lpips
-            lpips_alex += loss_fn_alex(images, reconstructed_images).sum()
-            lpips_vgg += loss_fn_vgg(images, reconstructed_images).sum()
-
-
             images = (images + 1) / 2
             reconstructed_images = (reconstructed_images + 1) / 2
 
@@ -259,8 +297,6 @@ def main(args):
 
 
     fid_value = calculate_frechet_distance(mu_x, sigma_x, mu_rec, sigma_rec)
-    lpips_alex_value = lpips_alex / num_images
-    lpips_vgg_value = lpips_vgg / num_images
     ssim_value = ssim_value / num_iter
     psnr_value = psnr_value / num_iter
 
@@ -268,8 +304,6 @@ def main(args):
     utilization = num_count / codebook_size
 
     print("FID: ", fid_value)
-    print("LPIPS_ALEX: ", lpips_alex_value.item())
-    print("LPIPS_VGG: ", lpips_vgg_value.item())
     print("SSIM: ", ssim_value)
     print("PSNR: ", psnr_value)
     print("utilization", utilization)

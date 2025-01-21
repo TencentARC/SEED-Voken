@@ -1,10 +1,19 @@
 ## GPU and NPU can use the same config for evaluation
-##Open-MAGVIT2
+##Open-MAGVIT2 GPU
 # python evaluation.py --config_file configs/Open-MAGVIT2/gpu/imagenet_lfqgan_256_L.yaml --ckpt_path ../upload_ckpts/Open-MAGVIT2/in1k_256_L/imagenet_256_L.ckpt --image_size 256 --model Open-MAGVIT2
 
 ##NPU
 ##Open-MAGVIT2
 # python evaluation.py --config_file configs/Open-MAGVIT2/npu/imagenet_lfqgan_256_L.yaml --ckpt_path ../upload_ckpts/Open-MAGVIT2/in1k_256_L/imagenet_256_L.ckpt --image_size 256 --model Open-MAGVIT2
+
+##NPU
+##Open-MAGVIT2 pretrain 262144
+# python evaluation.py --config_file configs/Open-MAGVIT2/npu/pretrain_lfqgan_256_262144.yaml --ckpt_path ../upload_ckpts/Open-MAGVIT2/pretrain_256_262144/pretrain256_262144.ckpt --image_size 256 --model Open-MAGVIT2
+
+##NPU
+##Open-MAGVIT2 pretrain 16384
+# python evaluation.py --config_file configs/Open-MAGVIT2/npu/pretrain_lfqgan_256_16384.yaml --ckpt_path ../upload_ckpts/Open-MAGVIT2/pretrain_256_16384/pretrain256_16384.ckpt --image_size 256 --model Open-MAGVIT2
+
 
 ##IBQ NPU
 ## 16384
