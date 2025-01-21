@@ -34,7 +34,7 @@ This repository provides the scripts and checkpoints to replicate our results.
 
 
 ### 🎤 Features
-* A series of image tokenizer for class-conditional image generation (8 $\times$ and 16 $\times$ downsampling rate with 2^18 codebook size) and text-conditional image generation (2^14 and 2^18 codebook size with 256 $\times$ 256 resolution).
+* A series of image tokenizer for class-conditional image generation (8$\times$ and 16$\times$ downsampling rate with 2^18 codebook size) and text-conditional image generation (2^14 and 2^18 codebook size with 16$\times$ downsampling rate).
 * A family of the autoregressive model ranging from 300M to 1.5B for class-conditional image generation.
 
 **🤗 Open-MAGVIT2 is still under active development. Stay tuned for the update!**
@@ -152,6 +152,6 @@ bash scripts/evaluation/evaluation_original.sh
 | Open-MAGVIT2 | LFQ | 100M | 16 | 256 $\times$ 256 | 16384 | [Pretrain_256_16384](https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-16384-Pretrain/blob/main/pretrain256_16384.ckpt) |7.93 | 22.21 | 0.62 | 2.55 | 22.21 | 0.62 |
 | **Open-MAGVIT2** | LFQ | 100M | 16 | 256 $\times$ 256 | 262144 | [Pretrain_256_262144](https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-262144-Pretrain/blob/main/pretrain256_262144.ckpt) | **6.76** | **22.31** | **0.65** | **1.67** | **22.70** | **0.64** |
 | Cosmos | FSQ | - | 16 | Original | 640000 | - | 7.51 | 20.45 | 0.52 | 1.93 | 20.56 | 0.51 |
-| Open-MAGVIT2 | LFQ | 100M | 16 | Original | 16384 | above | 6.65 | 21.61 | 0.57 | 1.39 | 21.74 | 0.56 |
-| **Open-MAGVIT2** | LFQ | 100M | 16 | Original | 262144 | above | **5.10** | **22.18** | **0.60** | **0.78** | **22.24** | **0.59** |
+| Open-MAGVIT2 | LFQ | 100M | 16 | Original | 16384 | [Pretrain_256_16384](https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-16384-Pretrain/blob/main/pretrain256_16384.ckpt) | 6.65 | 21.61 | 0.57 | 1.39 | 21.74 | 0.56 |
+| **Open-MAGVIT2** | LFQ | 100M | 16 | Original | 262144 | [Pretrain_256_262144](https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-262144-Pretrain/blob/main/pretrain256_262144.ckpt) | **5.10** | **22.18** | **0.60** | **0.78** | **22.24** | **0.59** |
 
