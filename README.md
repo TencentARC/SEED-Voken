@@ -36,7 +36,7 @@ The project aims to provide advanced visual tokenizers for autoregressive visual
 </p>
 
 ## 📰 News
-* **[2025.01.17]**:fire::fire::fire: Open-MAGVIT2 tokenizers (codebook size of 16384 and 262144) for text-conditional image generation are now released! They are pretrained with large-scale image-text datasets, achieving SOTA performance compared to LlamaGen, Show-o, and Cosmos.
+* **[2025.01.21]**:fire::fire::fire: Open-MAGVIT2 tokenizers (codebook size of 16384 and 262144) for text-conditional image generation are now released! They are pretrained with large-scale image-text datasets, achieving SOTA performance compared to LlamaGen, Show-o, and Cosmos.
 * **[2024.11.26]** We are excited to release **IBQ**, a series of scalable visual tokenizers, which achieve a large-scale codebook (2^18) with high dimension (256) and high utilization.
 * **[2024.09.09]** We release an improved version of Open-MAGVIT2 tokenizer and a family of auto-regressive models ranging from 300M to 1.5B.
 * **[2024.06.17]** We release the training code of the **Open-MAGVIT2** tokenizer and checkpoints for different resolutions, **achieving state-of-the-art performance (`0.39 rFID` for 8x downsampling)** compared to VQGAN, MaskGIT, and recent TiTok, LlamaGen, and OmniTokenizer.
