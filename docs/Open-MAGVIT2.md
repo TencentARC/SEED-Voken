@@ -129,7 +129,7 @@ Before pretraining, the sample.json and filter_keys.json of each datasets should
 
 ##### 🚀 Training Scripts
 ```
-bash scripts/train_tokenizer/Open-MAGVIT2/run_256_L.sh MASTER_ADDR MASTER_PORT NODE_RANK
+bash scripts/train_tokenizer/Open-MAGVIT2/pretrain_256.sh MASTER_ADDR MASTER_PORT NODE_RANK
 ```
 
 ##### 🚀 Evaluation Scripts
