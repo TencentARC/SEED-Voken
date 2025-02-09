@@ -1,7 +1,7 @@
 ## NPU
 
 ##Open-MAGVIT2
-# python reconstruct.py \
+# python reconstruct_image.py \
 # --config_file "configs/Open-MAGVIT2/npu/imagenet_lfqgan_256_L.yaml" \
 # --ckpt_path  ../upload_ckpts/Open-MAGVIT2/in1k_256_L/imagenet_256_L.ckpt \
 # --save_dir "./visualize" \
@@ -11,7 +11,7 @@
 # --model Open-MAGVIT2 \
 
 # ##IBQ
-# python reconstruct.py \
+# python reconstruct_image.py \
 # --config_file "configs/IBQ/npu/imagenet_ibqgan_262144.yaml" \
 # --ckpt_path  ../upload_ckpts/IBQ/in1k_262144/imagenet256_262144.ckpt \
 # --save_dir "./visualize" \

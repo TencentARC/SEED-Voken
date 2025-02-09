@@ -10,3 +10,5 @@ einops
 requests
 transformers==4.37.2
 lpips
+av
+decord

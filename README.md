@@ -36,7 +36,8 @@ The project aims to provide advanced visual tokenizers for autoregressive visual
 </p>
 
 ## 📰 News
-* **[2025.01.21]**:fire::fire::fire: Open-MAGVIT2 tokenizers (codebook size of 16384 and 262144) for text-conditional image generation are now released! They are pretrained with large-scale image-text datasets, achieving SOTA performance compared to LlamaGen, Show-o, and Cosmos.
+* **[2025.02.09]**:fire::fire::fire: We release Open-MAGVIT2 Video tokenizers, which achieves SOTA performance compared to OmniTokenizer, LARP and SweetTokenizer. 
+* **[2025.01.21]** Open-MAGVIT2 tokenizers (codebook size of 16384 and 262144) for text-conditional image generation are now released! They are pretrained with large-scale image-text datasets, achieving SOTA performance compared to LlamaGen, Show-o, and Cosmos.
 * **[2024.11.26]** We are excited to release **IBQ**, a series of scalable visual tokenizers, which achieve a large-scale codebook (2^18) with high dimension (256) and high utilization.
 * **[2024.09.09]** We release an improved version of Open-MAGVIT2 tokenizer and a family of auto-regressive models ranging from 300M to 1.5B.
 * **[2024.06.17]** We release the training code of the **Open-MAGVIT2** tokenizer and checkpoints for different resolutions, **achieving state-of-the-art performance (`0.39 rFID` for 8x downsampling)** compared to VQGAN, MaskGIT, and recent TiTok, LlamaGen, and OmniTokenizer.
@@ -51,13 +52,19 @@ The project aims to provide advanced visual tokenizers for autoregressive visual
 - **Dependencies**: `pip install -r requirements.txt`
 
 #### NPU
+##### Image Version
 - **Env**: `Python 3.9.16` and [`CANN 8.0.T13`](https://www.hiascend.com/en/software/cann)
 - **Main Dependencies**: `torch=2.1.0+cpu` + `torch-npu=2.1.0.post3-20240523` + [`Lightning`](https://github.com/hipudding/pytorch-lightning/tree/npu_support)
-- **Other Dependencies**: see in `requirements.txt`
+
+##### Video Version
+- **Env** `Python 3.9.16` and [`CANN 8.0.T62`](https://www.hiascend.com/en/software/cann)
+- **Main Dependencies**: `torch=2.1.0+cpu` + `torch-npu=2.1.0.post10.dev20241128` + [`Lightning`](https://github.com/hipudding/pytorch-lightning/tree/npu_support)
+
+**Other Dependencies**: see in `requirements.txt`
 
 #### Datasets
 
-We use Imagenet2012 as our dataset.
+We use Imagenet2012 as our Image dataset.
 ```
 imagenet
 └── train/
@@ -71,8 +78,23 @@ imagenet
     ├── ...
 ```
 
+We use UCF-101 as our Video Dataset
+```
+UCF101
+└── train/
+    ├── class_0
+        ├── video_1.mp4
+        ├── video_2.mp4
+        ├── ...
+    ├── class_1
+    ├── class_2
+└── val/
+    ├── ...
+```
+The preparation of UCF-101 can be referred to [VideoGPT](https://github.com/wilson1yan/VideoGPT)
+
 ### ⚡ Training & Evaluation
 The training and evaluation scripts are in <a href="docs/Open-MAGVIT2.md">Open-MAGVIT2.md</a> and <a href="docs/IBQ.md">IBQ.md</a>.
 
 ## ❤️ Acknowledgement
-We thank [Lijun Yu](https://me.lj-y.com/) for his encouraging discussions. We refer a lot from [VQGAN](https://github.com/CompVis/taming-transformers) and [MAGVIT](https://github.com/google-research/magvit). We also refer to [LlamaGen](https://github.com/FoundationVision/LlamaGen), [VAR](https://github.com/FoundationVision/VAR) and [RQVAE](https://github.com/kakaobrain/rq-vae-transformer). Thanks for their wonderful work.
+We thank [Lijun Yu](https://me.lj-y.com/) for his encouraging discussions. We refer a lot from [VQGAN](https://github.com/CompVis/taming-transformers) and [MAGVIT](https://github.com/google-research/magvit). We also refer to [LlamaGen](https://github.com/FoundationVision/LlamaGen), [VAR](https://github.com/FoundationVision/VAR), [RQVAE](https://github.com/kakaobrain/rq-vae-transformer) and [VideoGPT](https://github.com/wilson1yan/VideoGPT), [OmniTokenizer](https://github.com/FoundationVision/OmniTokenizer). Thanks for their wonderful work.

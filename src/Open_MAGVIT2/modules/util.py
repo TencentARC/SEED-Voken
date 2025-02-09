@@ -1,6 +1,62 @@
 import torch
 import torch.nn as nn
+from einops import rearrange
+import torch.nn.functional as F
 
+def flatten_t_dim(x):
+    assert len(x.shape) == 5
+    if not x.is_contiguous():
+        x = x.contiguous()
+    x = rearrange(x, "b c t h w -> (b t) c h w")
+    if not x.is_contiguous():
+        x = x.contiguous()
+    return x
+
+def unflatten_t_dim(x, t):
+    assert len(x.shape) == 4
+    if not x.is_contiguous():
+        x = x.contiguous()
+    x = rearrange(x, "(b t) c h w -> b c t h w", t=t)
+    if not x.is_contiguous():
+        x = x.contiguous()
+    return x
+
+def preprocess(videos, target_resolution):
+    # videos in {0, ..., 255} as np.uint8 array
+    b, t, h, w, c = videos.shape
+    all_frames = torch.FloatTensor(videos).flatten(end_dim=1) # (b * t, h, w, c)
+    all_frames = all_frames.permute(0, 3, 1, 2).contiguous() # (b * t, c, h, w)
+    resized_videos = F.interpolate(all_frames, size=target_resolution,
+                                   mode='bilinear', align_corners=False) #resize 224
+    resized_videos = resized_videos.view(b, t, c, *target_resolution)
+    output_videos = resized_videos.transpose(1, 2).contiguous() # (b, c, t, *)
+    scaled_videos = 2. * output_videos / 255. - 1 # [-1, 1]
+    return scaled_videos
+
+def shift_dim(x, src_dim=-1, dest_dim=-1, make_contiguous=True):
+    n_dims = len(x.shape)
+    if src_dim < 0:
+        src_dim = n_dims + src_dim
+    if dest_dim < 0:
+        dest_dim = n_dims + dest_dim
+
+    assert 0 <= src_dim < n_dims and 0 <= dest_dim < n_dims
+
+    dims = list(range(n_dims))
+    del dims[src_dim]
+
+    permutation = []
+    ctr = 0
+    for i in range(n_dims):
+        if i == dest_dim:
+            permutation.append(src_dim)
+        else:
+            permutation.append(dims[ctr])
+            ctr += 1
+    x = x.permute(permutation)
+    if make_contiguous:
+        x = x.contiguous()
+    return x
 
 def count_params(model):
     total_params = sum(p.numel() for p in model.parameters())

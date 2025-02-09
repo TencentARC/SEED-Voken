@@ -34,7 +34,7 @@ This repository provides the scripts and checkpoints to replicate our results.
 
 
 ### 🎤 Features
-* A series of image tokenizer for class-conditional image generation (8$\times$ and 16$\times$ downsampling rate with 2^18 codebook size) and text-conditional image generation (2^14 and 2^18 codebook size with 16$\times$ downsampling rate).
+* A series of visual tokenizers: (1) image tokenizer for class-conditional image generation (8 $\times$ and 16 $\times$ downsampling rate with 2^18 codebook size), (2) text-conditional image generation (2^14 and 2^18 codebook size with 16 $\times$ downsampling rate), (3) video tokenizer (2^18 codebook size with 4 $\times$ 8 $\times 8$ downsampling rate).
 * A family of the autoregressive model ranging from 300M to 1.5B for class-conditional image generation.
 
 **🤗 Open-MAGVIT2 is still under active development. Stay tuned for the update!**
@@ -154,4 +154,33 @@ bash scripts/evaluation/evaluation_original.sh
 | Cosmos | FSQ | - | 16 | Original | 64000 | - | 7.51 | 20.45 | 0.52 | 1.93 | 20.56 | 0.51 |
 | Open-MAGVIT2 | LFQ | 100M | 16 | Original | 16384 | [Pretrain_256_16384](https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-16384-Pretrain/blob/main/pretrain256_16384.ckpt) | 6.65 | 21.61 | 0.57 | 1.39 | 21.74 | 0.56 |
 | **Open-MAGVIT2** | LFQ | 100M | 16 | Original | 262144 | [Pretrain_256_262144](https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-262144-Pretrain/blob/main/pretrain256_262144.ckpt) | **5.10** | **22.18** | **0.60** | **0.78** | **22.24** | **0.59** |
+
+### Video Generation
+
+#### Stage I: Training of Video Tokenizer
+
+##### 🚀 Training Scripts
+- ###### Tokenizer Training
+```
+bash scripts/train_tokenizer/Open-MAGVIT2/run_video.sh MASTER_ADDR MASTER_PORT NODE_RANK
+```
+
+##### 🚀 Evaluation Scripts
+
+- ###### Video Tokenizer Evaluation
+```
+bash scripts/evaluation/evaluation_video.sh
+```
+
+##### 🍺 Performance comparison and Models
+| Method | Token Type |Tokens | Ratio | Train Resolution | Codebook Size | rFVD | Checkpoints |
+|:------:|:------:|:--------:|:-----:|:----------------:|:-------------:|:----:|:------------:| 
+| TATS   | 2D | 4 $\times$ 16 $\times$ 16 | 8 | 128 $\times$ 128 | 16384 | 162 | - |
+| MAGVIT | 2D | 4 $\times$ 16 $\times$ 16 | 8 | 128 $\times$ 128 | 1024  | 25 | - |
+|SweetTokenizer| 1D | 256 + 1024 | - | 256 $\times$ 256 | 10481 + 11139 | 44 | - |
+|LARP-L | 1D | 1024 |  - | 128 $\times$ 128 | 8192 |24 | - |
+|LARP-L-Long | 1D | 1024 |  - | 128 $\times$ 128 | 8192 | 24 | - |
+|SweetTokenizer| 1D | 5120 | - | 256 $\times$ 256 | 10481 + 11139 | 18 | - | 
+|Open-MAGVIT2 | 2D | 5 $\times$ 16 $\times$ 16 | 8 | 128 $\times$ 128 |262144 | 16 | [Video_128_262144](https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-262144-Video/blob/main/video_128_262144.ckpt) |
+
 
