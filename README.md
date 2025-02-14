@@ -36,7 +36,8 @@ The project aims to provide advanced visual tokenizers for autoregressive visual
 </p>
 
 ## 📰 News
-* **[2025.02.09]**:fire::fire::fire: We release Open-MAGVIT2 Video tokenizers, which achieves SOTA performance compared to OmniTokenizer, LARP and SweetTokenizer. 
+* **[2025.02.14]**:fire::fire::fire: The pretrained version of **IBQ** visual tokenizers, which achieves SOTA performance with high code dimension is released.
+* **[2025.02.09]** We release Open-MAGVIT2 Video tokenizers, which achieves SOTA performance compared to OmniTokenizer, LARP and SweetTokenizer. 
 * **[2025.01.21]** Open-MAGVIT2 tokenizers (codebook size of 16384 and 262144) for text-conditional image generation are now released! They are pretrained with large-scale image-text datasets, achieving SOTA performance compared to LlamaGen, Show-o, and Cosmos.
 * **[2024.11.26]** We are excited to release **IBQ**, a series of scalable visual tokenizers, which achieve a large-scale codebook (2^18) with high dimension (256) and high utilization.
 * **[2024.09.09]** We release an improved version of Open-MAGVIT2 tokenizer and a family of auto-regressive models ranging from 300M to 1.5B.
@@ -64,6 +65,8 @@ The project aims to provide advanced visual tokenizers for autoregressive visual
 
 #### Datasets
 
+- **Image Dataset**
+
 We use Imagenet2012 as our Image dataset.
 ```
 imagenet
@@ -77,6 +80,8 @@ imagenet
 └── val/
     ├── ...
 ```
+
+- **Video Dataset**
 
 We use UCF-101 as our Video Dataset
 ```
@@ -92,6 +97,26 @@ UCF101
     ├── ...
 ```
 The preparation of UCF-101 can be referred to [VideoGPT](https://github.com/wilson1yan/VideoGPT)
+
+- **Text2Image Datasets**
+
+We recommend the data are organized in the following tar format.
+```
+data
+└── LAION_COCO/
+    ├── webdataset
+        ├── 1.tar
+        ├── 2.tar
+        ├── 3.tar
+        ├── ...
+└── CC12M/
+    ├── webdataset
+        ├── 1.tar
+        ├── 2.tar
+        ├── 3.tar
+        ├── ...
+```
+Before pretraining, the sample.json and filter_keys.json of each datasets should be prepared. Please refer to **src/Open_MAGVIT2/data/prepare_pretrain.py**
 
 ### ⚡ Training & Evaluation
 The training and evaluation scripts are in <a href="docs/Open-MAGVIT2.md">Open-MAGVIT2.md</a> and <a href="docs/IBQ.md">IBQ.md</a>.

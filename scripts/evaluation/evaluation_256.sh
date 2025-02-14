@@ -22,6 +22,10 @@
 ## 262144
 # python evaluation_image.py --config_file configs/IBQ/npu/imagenet_ibqgan_262144.yaml --ckpt_path ../upload_ckpts/IBQ/in1k_262144/imagenet256_262144.ckpt --image_size 256 --model IBQ
 
+## Pretrain 262144
+# python evaluation_image.py --config_file configs/IBQ/npu/pretrain_ibqgan_262144.yaml --ckpt_path ../upload_ckpts/IBQ/pretrain_262144/pretrain256_262144.ckpt --image_size 256 --model IBQ
+
+
 ## 8192
 # python evaluation_image.py --config_file configs/IBQ/npu/imagenet_ibqgan_8192.yaml --ckpt_path ../upload_ckpts/IBQ/in1k_8192/imagenet256_8192.ckpt --image_size 256 --model IBQ
 

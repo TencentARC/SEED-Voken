@@ -26,6 +26,8 @@ from src.Open_MAGVIT2.models.lfqgan import VQModel
 ### When using pretrain setup
 # from src.Open_MAGVIT2.models.lfqgan_pretrain import VQModel
 from src.IBQ.models.ibqgan import IBQ
+### When using pretrain setup
+from src.IBQ.models.ibqgan_pretrain import VQModel
 from metrics.inception import InceptionV3
 import lpips
 from skimage.metrics import peak_signal_noise_ratio as psnr_loss

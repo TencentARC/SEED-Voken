@@ -1,0 +1,107 @@
+seed_everything: true
+trainer:
+  accelerator: gpu
+  strategy: ddp_find_unused_parameters_true
+  devices: 8
+  num_nodes: 4
+  precision: 16-mixed
+  max_steps: 1500000
+  check_val_every_n_epoch: null
+  val_check_interval: 5005 ## one imagenet epoch length
+  num_sanity_val_steps: -1
+  log_every_n_steps: 100
+  callbacks:
+    - class_path: lightning.pytorch.callbacks.ModelCheckpoint
+      init_args:
+        dirpath: "../../checkpoints/vqgan/test"
+        save_top_k: -1
+        save_last: True
+    - class_path: lightning.pytorch.callbacks.LearningRateMonitor
+      init_args:
+        logging_interval: step
+  logger:
+    class_path: lightning.pytorch.loggers.TensorBoardLogger
+    init_args:
+      save_dir: "../../results/vqgan/"
+      version: "test"
+      name:
+
+model:
+  class_path: src.IBQ.models.ibqgan.IBQ
+  init_args:
+    ddconfig:
+      double_z: False
+      z_channels: 256
+      resolution: 256
+      in_channels: 3
+      out_ch: 3
+      ch: 128
+      ch_mult: [ 1,1,2,2,4]  # num_down = len(ch_mult)-1
+      num_res_blocks: 4 #not adopt from showo
+      attn_resolutions: [16] #not adopt from showo
+      dropout: 0.0
+
+    lossconfig:
+      target: src.IBQ.modules.losses.vqperceptual.VQLPIPSWithDiscriminator
+      params:
+        disc_conditional: False
+        disc_in_channels: 3
+        disc_start: 0 # from 0 epoch
+        disc_weight: 0.4 # default 0.4
+        quant_loss_weight: 1.0 # default 1.0
+        entropy_loss_weight: 0.05 # default 0.1
+        gen_loss_weight: 0.1
+        lecam_loss_weight: 0.05
+
+    n_embed: 16384
+    embed_dim: 256
+    learning_rate: 1e-4
+    l2_normalize: False
+    use_entropy_loss: True
+    sample_minimization_weight: 1.0
+    batch_maximization_weight: 1.0
+    entropy_temperature: 0.01 # default 0.01
+    beta: 0.25
+    use_ema: True
+    use_shared_epoch: True
+    resume_lr:
+    sche_type:
+    wpe: 0.01 ## learning rate decay to zero
+    wp: 1 ##one epoch for linear warmup
+    wp0: 0.0 ##for warmup #from zero to lr
+    max_iter: 1500000
+    wp_iter: 5000
+    lr_drop_iter: [50, 100]
+
+data:
+  class_path: main.DataModuleFromConfig
+  init_args:
+    batch_size: 8
+    num_workers: 16
+    train:
+      target: src.Open_MAGVIT2.data.pretrain.LAIONCombineTrain
+      params:
+        config:
+          size: 256
+          subset:
+          filter_path: ["../../data/laion-aesthetic-v2_filter_keys.json", "../../data/JourneyDB_filter_keys.json", "../../data/laion-aesthetic_v1_filter_keys.json", "../../data/laion-hd_sub_filter_keys_2.json", "../../data/capfusion_filter_keys.json"]
+          sample_json_path: ["../../data/capfusion_samples.json","../../data/laion-coco_samples.json", "../../data/cc15m_samples_2.json", "../../data/laion-aesthetic-v2_samples.json", "../../data/JourneyDB_samples.json", "../../data/laion-aesthetic_v1_samples.json", "../../data/laion-hd_sub_samples_2.json"]
+          sample_coco_urls: ../../data/laion-coco_sample_urls_20M.txt
+          sample_hd_urls: ../../data/laion-hd_sample_urls_30M_2.txt
+          data_dir: ["../../data/CapFusion-120M", "../../data/LAION-COCO-Recaption", "../../data/CC12M/webdataset/gcc12m_shards", "../../data/Laion-aesthetic-v2/data", "../../data/CC3M/webdataset/gcc3m_shards", "../../data/JourneyDB/wds", "../../data/laion-aesthetics-12M/webdataset_train", "../../data/laion-hd/webdataset_train/"]
+          image_key: [jpg, jpeg.jpg, "jpg.jpg"]
+          enable_image: True
+    validation:
+      target: src.Open_MAGVIT2.data.imagenet.ImageNetValidation
+      params:
+        config:
+          size: 256
+          subset:
+    test:
+      target: src.Open_MAGVIT2.data.imagenet.ImageNetValidation
+      params:
+        config:
+          size: 256
+          subset:
+
+ckpt_path: null # to resume

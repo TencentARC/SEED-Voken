@@ -109,23 +109,7 @@ bash scripts/evaluation/sample_npu.sh or scripts/evaluation/sample_gpu.sh Your_T
 #### Stage I: Training of Visual Tokenizer
 
 ##### Data Preparation
-We use LAION-COCO, CC12M, CC3M, LAION-HD, LAION-Aesthetic-umap, LAION-Aesthetic-v2 and JourneyDB for Pretraining. We recommend the data are organized in the following tar format.
-```
-data
-└── LAION_COCO/
-    ├── webdataset
-        ├── 1.tar
-        ├── 2.tar
-        ├── 3.tar
-        ├── ...
-└── CC12M/
-    ├── webdataset
-        ├── 1.tar
-        ├── 2.tar
-        ├── 3.tar
-        ├── ...
-```
-Before pretraining, the sample.json and filter_keys.json of each datasets should be prepared. Please refer to **src/Open_MAGVIT2/data/prepare_pretrain.py**
+We use LAION-COCO, CC12M, CC3M, LAION-HD, LAION-Aesthetic-umap, LAION-Aesthetic-v2 and JourneyDB for Pretraining. 
 
 ##### 🚀 Training Scripts
 ```
