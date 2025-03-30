@@ -11,8 +11,8 @@ from PIL import Image
 from tqdm import tqdm, trange
 from einops import repeat
 import importlib
-from src.Open_MAGVIT2.modules.transformer.gpt import sample_Open_MAGVIT2
-from src.IBQ.modules.transformer.llama import sample_IBQ
+from OpenImageTokenizer.Open_MAGVIT2.modules.transformer.gpt import sample_Open_MAGVIT2
+from OpenImageTokenizer.IBQ.modules.transformer.llama import sample_IBQ
 import time
 try:
     import torch_npu

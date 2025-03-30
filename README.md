@@ -52,6 +52,11 @@ The project aims to provide advanced visual tokenizers for autoregressive visual
 - **Env**: We have tested on `Python 3.8.8` and `CUDA 11.8` (other versions may also be fine).
 - **Dependencies**: `pip install -r requirements.txt`
 
+### 🛠️ Installation module
+#### Clone Repo: `git clone https://github.com/F4k3r22/OpenImageTokenizer.git`
+#### Command: `cd OpenImageTokenizer`
+#### Command: `pip install .`
+
 #### NPU
 ##### Image Version
 - **Env**: `Python 3.9.16` and [`CANN 8.0.T13`](https://www.hiascend.com/en/software/cann)

@@ -16,11 +16,11 @@ import yaml
 import numpy as np
 from PIL import Image
 from tqdm import tqdm
-from src.Open_MAGVIT2.models.video_lfqgan import VQModel
+from OpenImageTokenizer.Open_MAGVIT2.models.video_lfqgan import VQModel
 import lpips
 from metrics.pytorch_i3d import InceptionI3d
 from metrics.fvd import frechet_distance
-from src.Open_MAGVIT2.modules.util import flatten_t_dim, unflatten_t_dim, shift_dim, preprocess
+from OpenImageTokenizer.Open_MAGVIT2.modules.util import flatten_t_dim, unflatten_t_dim, shift_dim, preprocess
 
 try:
     import torch_npu

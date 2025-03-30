@@ -24,8 +24,8 @@ from PIL import Image
 from tqdm import tqdm
 from scipy import linalg
 
-from src.Open_MAGVIT2.models.lfqgan_pretrain import VQModel
-from src.IBQ.models.ibqgan import IBQ
+from OpenImageTokenizer.Open_MAGVIT2.models.lfqgan_pretrain import VQModel
+from OpenImageTokenizer.IBQ.models.ibqgan import IBQ
 from metrics.inception import InceptionV3
 import lpips
 from skimage.metrics import peak_signal_noise_ratio as psnr_loss

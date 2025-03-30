@@ -19,9 +19,9 @@ import mediapy as media
 import cv2 
 import imageio
 import random
-from src.Open_MAGVIT2.models.video_lfqgan import VQModel
-import src.Open_MAGVIT2.data.video_transforms as video_transforms
-import src.Open_MAGVIT2.data.volume_transforms as volume_transforms
+from OpenImageTokenizer.Open_MAGVIT2.models.video_lfqgan import VQModel
+import OpenImageTokenizer.Open_MAGVIT2.data.video_transforms as video_transforms
+import OpenImageTokenizer.Open_MAGVIT2.data.volume_transforms as volume_transforms
 from decord import VideoReader, cpu
 try:
     import torch_npu

@@ -10,8 +10,8 @@ import importlib
 import numpy as np
 from PIL import Image
 from tqdm import tqdm
-from src.Open_MAGVIT2.models.lfqgan import VQModel
-from src.IBQ.models.ibqgan import IBQ
+from OpenImageTokenizer.Open_MAGVIT2.models.lfqgan import VQModel
+from OpenImageTokenizer.IBQ.models.ibqgan import IBQ
 import argparse
 try:
 	import torch_npu
