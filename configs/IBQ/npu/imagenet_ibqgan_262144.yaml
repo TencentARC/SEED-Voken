@@ -26,7 +26,7 @@ trainer:
       name:
 
 model:
-  class_path: src.IBQ.models.ibqgan.IBQ
+  class_path: OpenImageTokenizer.IBQ.models.ibqgan.IBQ
   init_args:
     ddconfig:
       double_z: False
@@ -41,7 +41,7 @@ model:
       dropout: 0.0
 
     lossconfig:
-      target: src.IBQ.modules.losses.vqperceptual.VQLPIPSWithDiscriminator
+      target: OpenImageTokenizer.IBQ.modules.losses.vqperceptual.VQLPIPSWithDiscriminator
       params:
         disc_conditional: False
         disc_in_channels: 3
@@ -72,18 +72,18 @@ data:
     batch_size: 4
     num_workers: 16
     train:
-      target: src.IBQ.data.imagenet.ImageNetTrain
+      target: OpenImageTokenizer.IBQ.data.imagenet.ImageNetTrain
       params:
         config:
           size: 256
           subset:
     validation:
-      target: src.IBQ.data.imagenet.ImageNetValidation
+      target: OpenImageTokenizer.IBQ.data.imagenet.ImageNetValidation
       params:
         config:
           size: 256
     test:
-      target: src.IBQ.data.imagenet.ImageNetValidation
+      target: OpenImageTokenizer.IBQ.data.imagenet.ImageNetValidation
       params:
         config:
           size: 256

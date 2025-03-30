@@ -25,7 +25,7 @@ trainer:
       name:
 
 model:
-  class_path: src.Open_MAGVIT2.models.video_lfqgan.VQModel
+  class_path: OpenImageTokenizer.Open_MAGVIT2.models.video_lfqgan.VQModel
   init_args:
     ddconfig:
       double_z: False
@@ -38,7 +38,7 @@ model:
       num_res_blocks: 4
 
     lossconfig:
-      target: src.Open_MAGVIT2.modules.losses.video_vqperceptual.VQLPIPSWithDiscriminator
+      target: OpenImageTokenizer.Open_MAGVIT2.modules.losses.video_vqperceptual.VQLPIPSWithDiscriminator
       params:
         disc_conditional: False
         disc_in_channels: 3
@@ -74,7 +74,7 @@ data:
     batch_size: 2
     num_workers: 16
     train:
-      target: src.Open_MAGVIT2.data.ucf101.VideoDataset
+      target: OpenImageTokenizer.Open_MAGVIT2.data.ucf101.VideoDataset
       params:
         config:
           data_folder: ../../data/UCF-101
@@ -85,7 +85,7 @@ data:
           frame_sample_rate: 4
           subset:
     validation:
-      target: src.Open_MAGVIT2.data.ucf101.VideoDataset
+      target: OpenImageTokenizer.Open_MAGVIT2.data.ucf101.VideoDataset
       params:
         config:
           data_folder: ../../data/UCF-101
@@ -96,7 +96,7 @@ data:
           frame_sample_rate: 4
           subset:
     test:
-      target: src.Open_MAGVIT2.data.ucf101.VideoDataset
+      target: OpenImageTokenizer.Open_MAGVIT2.data.ucf101.VideoDataset
       params:
         config:
           data_folder: ../../data/UCF-101

@@ -27,7 +27,7 @@ trainer:
       name:
 
 model:
-  class_path: src.IBQ.models.cond_transformer_llama.Net2NetTransformer
+  class_path: OpenImageTokenizer.IBQ.models.cond_transformer_llama.Net2NetTransformer
   init_args:
     learning_rate: 3e-4
     first_stage_key: image
@@ -38,7 +38,7 @@ model:
     wp0: 0.005
     twde: 0
     transformer_config:
-      target: src.IBQ.modules.transformer.llama.GPT
+      target: OpenImageTokenizer.IBQ.modules.transformer.llama.GPT
       params:
         vocab_size: 16384 # 262144 tokens
         block_size: 256
@@ -53,7 +53,7 @@ model:
         alng: 1e-3
         class_num: 1000 #class tokens
     first_stage_config:
-      target: src.IBQ.models.ibqgan.IBQ
+      target: OpenImageTokenizer.IBQ.models.ibqgan.IBQ
       params:
         ckpt_path: # specify your path for tokenizer FID: 1.37
         n_embed: 16384
@@ -79,9 +79,9 @@ model:
           attn_resolutions: [16]
           dropout: 0.0
         lossconfig:
-          target: src.IBQ.modules.losses.DummyLoss
+          target: OpenImageTokenizer.IBQ.modules.losses.DummyLoss
     cond_stage_config:
-      target: src.IBQ.modules.util.Labelator
+      target: OpenImageTokenizer.IBQ.modules.util.Labelator
       params:
         n_classes: 1000
 
@@ -91,18 +91,18 @@ data:
     batch_size: 24
     num_workers: 16
     train:
-      target: src.IBQ.data.imagenet.ImageNetTrain
+      target: OpenImageTokenizer.IBQ.data.imagenet.ImageNetTrain
       params:
         config:
           size: 256
     validation:
-      target: src.IBQ.data.imagenet.ImageNetValidation
+      target: OpenImageTokenizer.IBQ.data.imagenet.ImageNetValidation
       params:
         config:
           size: 256
           subset:
     test:
-      target: src.IBQ.data.imagenet.ImageNetValidation
+      target: OpenImageTokenizer.IBQ.data.imagenet.ImageNetValidation
       params:
         config:
           size: 256
