@@ -7,9 +7,9 @@ import albumentations
 from omegaconf import OmegaConf
 from torch.utils.data import Dataset
 
-from IBQ.data.base import ImagePaths
-from IBQ.util import download, retrieve
-import IBQ.data.utils as bdu
+from OpenImageTokenizer.IBQ.data.base import ImagePaths
+from OpenImageTokenizer.IBQ.util import download, retrieve
+import OpenImageTokenizer.IBQ.data.utils as bdu
 
 
 def give_synsets_from_indices(indices, path_to_yaml="data/imagenet_idx_to_synset.yaml"):

@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from Open_MAGVIT2.modules.losses.lpips import LPIPS
-from Open_MAGVIT2.modules.discriminator.model import NLayerDiscriminator3D, weights_init
+from OpenImageTokenizer.Open_MAGVIT2.modules.losses.lpips import LPIPS
+from OpenImageTokenizer.Open_MAGVIT2.modules.discriminator.model import NLayerDiscriminator3D, weights_init
 from einops import rearrange
 
 

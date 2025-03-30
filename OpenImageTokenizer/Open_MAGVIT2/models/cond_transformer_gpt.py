@@ -11,8 +11,8 @@ import pytorch_lightning as pl
 import lightning as L
 import inspect
 
-from main import instantiate_from_config
-from Open_MAGVIT2.modules.util import SOSProvider
+from .main import instantiate_from_config
+from OpenImageTokenizer.Open_MAGVIT2.modules.util import SOSProvider
 
 
 def disabled_train(self, mode=True):

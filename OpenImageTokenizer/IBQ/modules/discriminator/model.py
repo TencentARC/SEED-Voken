@@ -1,7 +1,7 @@
 import functools
 import torch.nn as nn
 
-from IBQ.modules.util import ActNorm
+from OpenImageTokenizer.IBQ.modules.util import ActNorm
 
 
 def weights_init(m):

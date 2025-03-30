@@ -10,8 +10,8 @@ import torch.nn.functional as F
 import pytorch_lightning as pl
 import lightning as L
 
-from main import instantiate_from_config
-from IBQ.modules.util import SOSProvider
+from .main import instantiate_from_config
+from OpenImageTokenizer.IBQ.modules.util import SOSProvider
 
 
 def disabled_train(self, mode=True):

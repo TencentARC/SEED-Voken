@@ -1,2 +1,2 @@
-from IBQ.modules.losses.vqperceptual import DummyLoss
+from OpenImageTokenizer.IBQ.modules.losses.vqperceptual import DummyLoss
 

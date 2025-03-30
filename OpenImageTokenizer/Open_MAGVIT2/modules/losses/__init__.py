@@ -1,2 +1,2 @@
-from src.Open_MAGVIT2.modules.losses.vqperceptual import DummyLoss
+from OpenImageTokenizer.Open_MAGVIT2.modules.losses.vqperceptual import DummyLoss
 

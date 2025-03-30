@@ -7,15 +7,15 @@ import torchvision.transforms.functional as F
 from PIL import Image
 from torchvision import transforms
 
-from Open_MAGVIT2.data.rand_augment import rand_augment_transform
-from Open_MAGVIT2.data.random_erasing import RandomErasing
+from OpenImageTokenizer.Open_MAGVIT2.data.rand_augment import rand_augment_transform
+from OpenImageTokenizer.Open_MAGVIT2.data.random_erasing import RandomErasing
 
 
 import numbers
 import PIL
 import torchvision
 
-import Open_MAGVIT2.data.functional as FF
+import OpenImageTokenizer.Open_MAGVIT2.data.functional as FF
 
 _pil_interpolation_to_str = {
     Image.NEAREST: "PIL.Image.NEAREST",

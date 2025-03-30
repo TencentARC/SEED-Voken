@@ -3,8 +3,8 @@ import torch
 import torch.nn.functional as F
 import lightning as L
 
-from main import instantiate_from_config
-from Open_MAGVIT2.modules.util import SOSProvider
+from .main import instantiate_from_config
+from OpenImageTokenizer.Open_MAGVIT2.modules.util import SOSProvider
 
 
 def disabled_train(self, mode=True):

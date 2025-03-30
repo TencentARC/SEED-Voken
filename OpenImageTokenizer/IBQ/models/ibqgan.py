@@ -3,15 +3,15 @@ import torch.nn.functional as F
 import pytorch_lightning as pl
 import lightning as L
 
-from main import instantiate_from_config
+from .main import instantiate_from_config
 from collections import OrderedDict
 from contextlib import contextmanager
 
-from IBQ.modules.diffusionmodules.model import Encoder, Decoder
-from IBQ.modules.vqvae.quantize import VectorQuantizer2 as VectorQuantizer
-from IBQ.modules.vqvae.quantize import IndexPropagationQuantize
-from IBQ.modules.scheduler.lr_scheduler import Scheduler_LinearWarmup, Scheduler_LinearWarmup_CosineDecay
-from IBQ.modules.ema import LitEma
+from OpenImageTokenizer.IBQ.modules.diffusionmodules.model import Encoder, Decoder
+from OpenImageTokenizer.IBQ.modules.vqvae.quantize import VectorQuantizer2 as VectorQuantizer
+from OpenImageTokenizer.IBQ.modules.vqvae.quantize import IndexPropagationQuantize
+from OpenImageTokenizer.IBQ.modules.scheduler.lr_scheduler import Scheduler_LinearWarmup, Scheduler_LinearWarmup_CosineDecay
+from OpenImageTokenizer.IBQ.modules.ema import LitEma
 
 class VQModel(L.LightningModule):
     def __init__(self,

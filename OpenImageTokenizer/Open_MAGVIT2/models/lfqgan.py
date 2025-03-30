@@ -2,14 +2,14 @@ import torch
 import torch.nn.functional as F
 import lightning as L
 
-from main import instantiate_from_config
+from .main import instantiate_from_config
 from contextlib import contextmanager
 from collections import OrderedDict
 
-from Open_MAGVIT2.modules.diffusionmodules.improved_model import Encoder, Decoder
-from Open_MAGVIT2.modules.vqvae.lookup_free_quantize import LFQ
-from Open_MAGVIT2.modules.scheduler.lr_scheduler import Scheduler_LinearWarmup, Scheduler_LinearWarmup_CosineDecay
-from Open_MAGVIT2.modules.ema import LitEma
+from OpenImageTokenizer.Open_MAGVIT2.modules.diffusionmodules.improved_model import Encoder, Decoder
+from OpenImageTokenizer.Open_MAGVIT2.modules.vqvae.lookup_free_quantize import LFQ
+from OpenImageTokenizer.Open_MAGVIT2.modules.scheduler.lr_scheduler import Scheduler_LinearWarmup, Scheduler_LinearWarmup_CosineDecay
+from OpenImageTokenizer.Open_MAGVIT2.modules.ema import LitEma
 
 class VQModel(L.LightningModule):
     def __init__(self,

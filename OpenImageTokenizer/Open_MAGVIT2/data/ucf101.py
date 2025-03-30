@@ -6,8 +6,8 @@ import math
 import torch.nn.functional as F
 from omegaconf import OmegaConf
 import numpy as np
-import Open_MAGVIT2.data.video_transforms as video_transforms
-import Open_MAGVIT2.data.volume_transforms as volume_transforms
+import OpenImageTokenizer.Open_MAGVIT2.data.video_transforms as video_transforms
+import OpenImageTokenizer.Open_MAGVIT2.data.volume_transforms as volume_transforms
 from decord import VideoReader, cpu
 import warnings
 import random

@@ -2,8 +2,8 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-from IBQ.modules.losses.lpips import LPIPS
-from IBQ.modules.discriminator.model import NLayerDiscriminator, weights_init
+from OpenImageTokenizer.IBQ.modules.losses.lpips import LPIPS
+from OpenImageTokenizer.IBQ.modules.discriminator.model import NLayerDiscriminator, weights_init
 
 
 class DummyLoss(nn.Module):

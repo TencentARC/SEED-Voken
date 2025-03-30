@@ -6,7 +6,7 @@ import math
 from typing import Tuple
 import torch
 
-from Open_MAGVIT2.modules.util import ActNorm
+from OpenImageTokenizer.Open_MAGVIT2.modules.util import ActNorm
 
 
 def weights_init(m):

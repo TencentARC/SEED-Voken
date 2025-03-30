@@ -7,9 +7,9 @@ import albumentations
 from omegaconf import OmegaConf
 from torch.utils.data import Dataset
 
-from Open_MAGVIT2.data.base import ImagePaths
-from Open_MAGVIT2.util import download, retrieve
-import Open_MAGVIT2.data.utils as bdu
+from OpenImageTokenizer.Open_MAGVIT2.data.base import ImagePaths
+from OpenImageTokenizer.Open_MAGVIT2.util import download, retrieve
+import OpenImageTokenizer.Open_MAGVIT2.data.utils as bdu
 
 
 def give_synsets_from_indices(indices, path_to_yaml="data/imagenet_idx_to_synset.yaml"):

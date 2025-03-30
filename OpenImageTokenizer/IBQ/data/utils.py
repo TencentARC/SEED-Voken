@@ -7,7 +7,7 @@ from pathlib import Path
 
 import numpy as np
 import torch
-from IBQ.data.helper_types import Annotation
+from OpenImageTokenizer.IBQ.data.helper_types import Annotation
 # from torch._six import string_classes
 string_classes=str
 from torch.utils.data._utils.collate import np_str_obj_array_pattern, default_collate_err_msg_format
