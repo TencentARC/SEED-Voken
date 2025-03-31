@@ -1,4 +1,4 @@
-# OpenImageTokenizer 🖼️→🔢
+<h1 align="center">OpenImageTokenizer 🖼️→🔢</h1>
 
 <div align="center">
 
