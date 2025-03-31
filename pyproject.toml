@@ -1,6 +1,6 @@
 [project]
 name = "OpenImageTokenizer"
-version = "0.1.2"
+version = "0.1.3"
 description = "OpenImageTokenizer: Based in SEED-Voken A Series of Powerful Visual Tokenizers"
 authors = [
     { name = "Rivera.ai/Fredy Rivera", email = "riveraaai200678@gmail.com" }

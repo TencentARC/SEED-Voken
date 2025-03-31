@@ -1,130 +1,188 @@
+# OpenImageTokenizer 🖼️→🔢
+
 <div align="center">
-<h1>🚀 SEED-Voken: A Series of Powerful Visual Tokenizers</h1>
+
+**Una interfaz Python elegante para los tokenizadores visuales de SEED-Voken**
+
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![License](https://img.shields.io/badge/license-APACHE2.0-green.svg)](LICENSE)
 
 </div>
 
-The project aims to provide advanced visual tokenizers for autoregressive visual generation and currently supports the following methods: <br><br>
+## 📝 Descripción
 
-><a href="https://arxiv.org/abs/2409.04410">Open-MAGVIT2: An Open-source Project Toward Democratizing Auto-Regressive Visual Generation</a><br>
->[Zhuoyan Luo*](https://robertluo1.github.io/), [Fengyuan Shi*](https://shifengyuan1999.github.io/), [Yixiao Ge](https://geyixiao.com/), [Yujiu Yang](https://sites.google.com/view/iigroup-thu/people), [Limin Wang](https://wanglimin.github.io/), [Ying Shan](https://scholar.google.com/citations?user=4oXBp9UAAAAJ&hl=en)<br>
->ARC Lab Tencent PCG, Tsinghua University, Nanjing University<br>
-<a href="./docs/Open-MAGVIT2.md">📚Open-MAGVIT2.md</a>
-> ```
-> @article{luo2024open,
->   title={Open-MAGVIT2: An Open-Source Project Toward Democratizing Auto-regressive Visual Generation},
->   author={Luo, Zhuoyan and Shi, Fengyuan and Ge, Yixiao and Yang, Yujiu and Wang, Limin and Shan, Ying},
->   journal={arXiv preprint arXiv:2409.04410},
->   year={2024}
-> }
-> ```
+OpenImageTokenizer es una biblioteca de Python que proporciona una interfaz simplificada y accesible para los potentes tokenizadores visuales desarrollados por TencentARC en su proyecto [SEED-Voken](https://github.com/TencentARC/SEED-Voken). Este paquete facilita el uso de modelos avanzados como Open-MAGVIT2 e IBQ sin necesidad de configuraciones complejas o entornos de desarrollo especializados.
 
-> <a href="https://arxiv.org/abs/2412.02692">IBQ: Taming Scalable Visual Tokenizer for Autoregressive Image Generation</a><br>
-> [Fengyuan Shi*](https://shifengyuan1999.github.io/), [Zhuoyan Luo*](https://robertluo1.github.io/), [Yixiao Ge](https://geyixiao.com/), [Yujiu Yang](https://sites.google.com/view/iigroup-thu/people), [Ying Shan](https://scholar.google.com/citations?user=4oXBp9UAAAAJ&hl=en), [Limin Wang](https://wanglimin.github.io/)<br>
-> Nanjing University, Tsinghua University, ARC Lab Tencent PCG<br>
-> <a href="./docs/IBQ.md">📚IBQ.md</a>
-> ```
-> @article{shi2024taming,
->   title={Taming Scalable Visual Tokenizer for Autoregressive Image Generation},
->   author={Shi, Fengyuan and Luo, Zhuoyan and Ge, Yixiao and Yang, Yujiu and Shan, Ying and Wang, Limin},
->   journal={arXiv preprint arXiv:2412.02692},
->   year={2024}
-> }
-> ```
+Similar a cómo los tokenizadores de texto convierten texto en tokens discretos, los tokenizadores visuales convierten imágenes en representaciones discretas (tokens) que pueden ser utilizadas para diversos fines, desde compresión hasta generación de imágenes autorregresiva.
 
 <p align="center">
-<img src="./assets/comparsion.png" width=90%>
+<img src="https://raw.githubusercontent.com/TencentARC/SEED-Voken/main/assets/comparsion.png" width=90%>
+<br><small><i>Comparación de diferentes tokenizadores visuales (imagen de SEED-Voken)</i></small>
 </p>
 
-## 📰 News
-* **[2025.02.14]**:fire::fire::fire: The pretrained version of **IBQ** visual tokenizers, which achieves SOTA performance with high code dimension is released.
-* **[2025.02.09]** We release Open-MAGVIT2 Video tokenizers, which achieves SOTA performance compared to OmniTokenizer, LARP and SweetTokenizer. 
-* **[2025.01.21]** Open-MAGVIT2 tokenizers (codebook size of 16384 and 262144) for text-conditional image generation are now released! They are pretrained with large-scale image-text datasets, achieving SOTA performance compared to LlamaGen, Show-o, and Cosmos.
-* **[2024.11.26]** We are excited to release **IBQ**, a series of scalable visual tokenizers, which achieve a large-scale codebook (2^18) with high dimension (256) and high utilization.
-* **[2024.09.09]** We release an improved version of Open-MAGVIT2 tokenizer and a family of auto-regressive models ranging from 300M to 1.5B.
-* **[2024.06.17]** We release the training code of the **Open-MAGVIT2** tokenizer and checkpoints for different resolutions, **achieving state-of-the-art performance (`0.39 rFID` for 8x downsampling)** compared to VQGAN, MaskGIT, and recent TiTok, LlamaGen, and OmniTokenizer.
+## ✨ Características
 
-## 📖 Implementations
+- **Interfaz simplificada**: API intuitiva para usar tokenizadores visuales sin necesidad de entender su complejidad interna
+- **Descarga automática**: Gestión transparente de checkpoints desde Hugging Face sin intervención manual
+- **Configuraciones integradas**: No requiere archivos YAML o JSON externos
+- **Visualización de tokens**: Herramientas para visualizar y entender los tokens generados
+- **Compatible con múltiples modelos**: Soporte para diferentes versiones de Open-MAGVIT2 e IBQ
+- **Multi-plataforma**: Funciona en CPU y GPU sin configuraciones especiales
 
-**Our codebase supports both NPU and GPU for training and inference. All experiments were conducted using the Ascend 910B for training, and we validated our models on the V100. The observed performance between the two platforms is nearly identical.**
+## 📊 Modelos Soportados
 
-### 🛠️ Installation
-#### GPU
-- **Env**: We have tested on `Python 3.8.8` and `CUDA 11.8` (other versions may also be fine).
-- **Dependencies**: `pip install -r requirements.txt`
+OpenImageTokenizer proporciona acceso a los siguientes modelos avanzados de SEED-Voken:
 
-### 🛠️ Installation module
-#### Clone Repo: `git clone https://github.com/F4k3r22/OpenImageTokenizer.git`
-#### Command: `cd OpenImageTokenizer`
-#### Command: `pip install .`
+### Open-MAGVIT2
 
-#### NPU
-##### Image Version
-- **Env**: `Python 3.9.16` and [`CANN 8.0.T13`](https://www.hiascend.com/en/software/cann)
-- **Main Dependencies**: `torch=2.1.0+cpu` + `torch-npu=2.1.0.post3-20240523` + [`Lightning`](https://github.com/hipudding/pytorch-lightning/tree/npu_support)
+Tokenizador visual estado del arte con rendimiento superior (`0.39 rFID` para downsampling 8x).
 
-##### Video Version
-- **Env** `Python 3.9.16` and [`CANN 8.0.T62`](https://www.hiascend.com/en/software/cann)
-- **Main Dependencies**: `torch=2.1.0+cpu` + `torch-npu=2.1.0.post10.dev20241128` + [`Lightning`](https://github.com/hipudding/pytorch-lightning/tree/npu_support)
+- TencentARC/Open-MAGVIT2-Tokenizer-128-resolution
+- TencentARC/Open-MAGVIT2-Tokenizer-256-resolution
+- TencentARC/Open-MAGVIT2-Tokenizer-16384-Pretrain
+- TencentARC/Open-MAGVIT2-Tokenizer-262144-Pretrain
 
-**Other Dependencies**: see in `requirements.txt`
+### IBQ
 
-#### Datasets
+Tokenizador visual escalable con alta dimensión de código y alta utilización.
 
-- **Image Dataset**
+- TencentARC/IBQ-Tokenizer-16384
+- TencentARC/IBQ-Tokenizer-32768
 
-We use Imagenet2012 as our Image dataset.
-```
-imagenet
-└── train/
-    ├── n01440764
-        ├── n01440764_10026.JPEG
-        ├── n01440764_10027.JPEG
-        ├── ...
-    ├── n01443537
-    ├── ...
-└── val/
-    ├── ...
+## 🛠️ Instalación
+
+```bash
+pypi no soportado
 ```
 
-- **Video Dataset**
+O directamente desde el repositorio:
 
-We use UCF-101 as our Video Dataset
+```bash
+git clone https://github.com/F4k3r22/OpenImageTokenizer.git
+cd OpenImageTokenizer
+pip install -e .
 ```
-UCF101
-└── train/
-    ├── class_0
-        ├── video_1.mp4
-        ├── video_2.mp4
-        ├── ...
-    ├── class_1
-    ├── class_2
-└── val/
-    ├── ...
+
+## 🚀 Uso Rápido
+
+### Ejemplo Básico
+
+```python
+from OpenImageTokenizer import MAGVIT2ImageTokenizer
+
+# Inicializar tokenizador (descarga automática de checkpoints)
+tokenizer = MAGVIT2ImageTokenizer("TencentARC/Open-MAGVIT2-Tokenizer-256-resolution")
+
+# Tokenizar una imagen
+encoded = tokenizer.encode("ruta/a/imagen.jpg")
+tokens = encoded['indices']
+
+# Reconstruir la imagen desde los tokens
+reconstructed = tokenizer.decode(encoded['quant'])
+
+# Visualizar los tokens
+tokenizer.visualize_tokens(tokens, save_path="tokens_visualization.png")
 ```
-The preparation of UCF-101 can be referred to [VideoGPT](https://github.com/wilson1yan/VideoGPT)
 
-- **Text2Image Datasets**
+### Procesamiento Completo
 
-We recommend the data are organized in the following tar format.
+```python
+# Codificar, decodificar y visualizar en un solo paso
+results = tokenizer.process_image("ruta/a/imagen.jpg", "directorio/salida")
+
+print(f"Imagen original: {results['original']}")
+print(f"Imagen reconstruida: {results['reconstructed']}")
+print(f"Visualización de tokens: {results['tokens']}")
 ```
-data
-└── LAION_COCO/
-    ├── webdataset
-        ├── 1.tar
-        ├── 2.tar
-        ├── 3.tar
-        ├── ...
-└── CC12M/
-    ├── webdataset
-        ├── 1.tar
-        ├── 2.tar
-        ├── 3.tar
-        ├── ...
+
+## 🔍 Aplicaciones
+
+Los tokenizadores visuales tienen múltiples aplicaciones en visión por computadora e IA:
+
+- **Generación autorregresiva de imágenes**: Base para modelos tipo GPT pero para imágenes
+- **Modelos multimodales**: Punto de conexión entre modelos de lenguaje y contenido visual
+- **Compresión de imágenes**: Representación eficiente mediante tokens discretos
+- **Edición semántica**: Manipulación a nivel de tokens para edición controlada
+- **Investigación en generación visual**: Experimentación con diferentes arquitecturas
+
+## 🧩 Componentes Principales
+
+- **MAGVIT2ImageTokenizer**: Clase principal para tokenización con Open-MAGVIT2
+- **hf_utils**: Módulo para gestionar la descarga de modelos desde Hugging Face
+- **configs**: Configuraciones integradas para los diferentes modelos
+- **visualize_tokens**: Utilidades para visualizar y comprender los tokens generados
+
+## 📑 Ejemplo de Script Completo
+
+```python
+import os
+from OpenImageTokenizer import MAGVIT2ImageTokenizer
+
+# Inicializar tokenizador
+tokenizer = MAGVIT2ImageTokenizer("TencentARC/Open-MAGVIT2-Tokenizer-256-resolution")
+
+# Cargar el modelo
+tokenizer.load_model()
+
+# Procesar imagen (codificar, visualizar, reconstruir)
+image_path = "mi_imagen.jpg"
+output_dir = "resultados"
+
+results = tokenizer.process_image(image_path, output_dir)
+
+# Mostrar información sobre los tokens
+token_shape = results["token_shape"]
+print(f"Forma de los tokens: {token_shape}")
+print(f"Total de tokens en la imagen: {token_shape[0] * token_shape[1]}")
+
+print("Archivos generados:")
+print(f"  Original: {results['original']}")
+print(f"  Reconstruido: {results['reconstructed']}")
+print(f"  Visualización de tokens: {results['tokens']}")
 ```
-Before pretraining, the sample.json and filter_keys.json of each datasets should be prepared. Please refer to **src/Open_MAGVIT2/data/prepare_pretrain.py**
 
-### ⚡ Training & Evaluation
-The training and evaluation scripts are in <a href="docs/Open-MAGVIT2.md">Open-MAGVIT2.md</a> and <a href="docs/IBQ.md">IBQ.md</a>.
+## 📚 Citas
 
-## ❤️ Acknowledgement
-We thank [Lijun Yu](https://me.lj-y.com/) for his encouraging discussions. We refer a lot from [VQGAN](https://github.com/CompVis/taming-transformers) and [MAGVIT](https://github.com/google-research/magvit). We also refer to [LlamaGen](https://github.com/FoundationVision/LlamaGen), [VAR](https://github.com/FoundationVision/VAR), [RQVAE](https://github.com/kakaobrain/rq-vae-transformer) and [VideoGPT](https://github.com/wilson1yan/VideoGPT), [OmniTokenizer](https://github.com/FoundationVision/OmniTokenizer). Thanks for their wonderful work.
+Si utilizas OpenImageTokenizer en tu investigación, considera citar los trabajos originales:
+
+Para Open-MAGVIT2:
+
+```bibtex
+@article{luo2024open,
+  title={Open-MAGVIT2: An Open-Source Project Toward Democratizing Auto-regressive Visual Generation},
+  author={Luo, Zhuoyan and Shi, Fengyuan and Ge, Yixiao and Yang, Yujiu and Wang, Limin and Shan, Ying},
+  journal={arXiv preprint arXiv:2409.04410},
+  year={2024}
+}
+```
+
+Para IBQ:
+
+```bibtex
+@article{shi2024taming,
+  title={Taming Scalable Visual Tokenizer for Autoregressive Image Generation},
+  author={Shi, Fengyuan and Luo, Zhuoyan and Ge, Yixiao and Yang, Yujiu and Shan, Ying and Wang, Limin},
+  journal={arXiv preprint arXiv:2412.02692},
+  year={2024}
+}
+```
+
+## 🤝 Contribuciones
+
+Las contribuciones son bienvenidas. Para contribuir:
+
+1. Haz un fork del repositorio
+2. Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`)
+3. Haz tus cambios y commitealos (`git commit -m 'Añade nueva funcionalidad'`)
+4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`)
+5. Abre un Pull Request
+
+## 📄 Licencia
+
+Este proyecto está licenciado bajo la licencia APACHE 2.0 - consulta el archivo [LICENSE](LICENSE) para más detalles.
+
+## ❤️ Agradecimientos
+
+- [TencentARC](https://github.com/TencentARC) por desarrollar [SEED-Voken](https://github.com/TencentARC/SEED-Voken) y los tokenizadores Open-MAGVIT2 e IBQ
+- [Hugging Face](https://huggingface.co) por alojar los modelos preentrenados
+- Los equipos detrás de [VQGAN](https://github.com/CompVis/taming-transformers), [MAGVIT](https://github.com/google-research/magvit), [LlamaGen](https://github.com/FoundationVision/LlamaGen),[RQVAE](https://github.com/kakaobrain/rq-vae-transformer) y [VideoGPT](https://github.com/wilson1yan/VideoGPT), [OmniTokenizer](https://github.com/FoundationVision/OmniTokenizer).
