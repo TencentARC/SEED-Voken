@@ -498,7 +498,466 @@ MODEL_TO_CONFIG = {
     "TencentARC/Open-MAGVIT2-Tokenizer-128-resolution": "128-GPU",
     "TencentARC/Open-MAGVIT2-Tokenizer-256-resolution": "256-GPU",
     "TencentARC/Open-MAGVIT2-Tokenizer-16384-Pretrain": "pretrain-16384",
-    "TencentARC/Open-MAGVIT2-Tokenizer-262144-Pretrain": "pretrain-262144"
+    "TencentARC/Open-MAGVIT2-Tokenizer-262144-Pretrain": "pretrain-262144",
+    "TencentARC/IBQ-Tokenizer-1024": "imagenet256_1024",
+    "TencentARC/IBQ-Tokenizer-8192": "imagenet256_8192",
+    "TencentARC/IBQ-Tokenizer-16384": "imagenet256_16384",
+    "TencentARC/IBQ-Tokenizer-262144": "imagenet256_262144"
+}
+
+CONFIGS_IBQ_IMAGE = {
+    "imagenet256_1024" : {
+        "seed_everything": True,
+        "trainer": {
+            "accelerator": "gpu",
+            "strategy" : "ddp_find_unused_parameters_true",
+            "devices": 8,
+            "num_nodes": 8,
+            "precision": "16-mixed",
+            "max_epochs": 330,
+            "check_val_every_n_epoch": 1,
+            "num_sanity_val_steps": -1,
+            "callbacks" : [
+                {
+                    "class_path" : "lightning.pytorch.callbacks.ModelCheckpoint",
+                    "init_args" : {
+                        "dirpath": "../../checkpoints/vqgan/test",
+                        "save_top_k": -1,  # save all checkpoints
+                        "save_last": True,
+                        "monitor": "train/perceptual_loss"
+                    }
+                },
+                {
+                    "class_path": "lightning.pytorch.callbacks.LearningRateMonitor",
+                    "init_args": {
+                        "logging_interval": "step"
+                    }
+                }
+            ],
+            "logger" : {
+                "class_path" : "lightning.pytorch.loggers.TensorBoardLogger",
+                "init_args" : {
+                    "save_dir": "../../results/vqgan/",
+                    "version": "test",
+                    "name": ""
+                }
+            }
+        },
+        "model" : {
+            "class_path" : "OpenImageTokenizer.IBQ.models.ibqgan.IBQ",
+            "init_args" : {
+                "ddconfig": {
+                    "double_z": False,
+                    "z_channels": 256,
+                    "resolution": 256,
+                    "in_channels": 3,
+                    "out_ch": 3,
+                    "ch": 128,
+                    "ch_mult": [1,1,2,2,4],  # num_down = len(ch_mult)-1
+                    "num_res_blocks": 4,
+                    "attn_resolutions": [16],
+                    "dropout": 0.0
+                },
+                "lossconfig" : {
+                    "target" : "OpenImageTokenizer.IBQ.modules.losses.vqperceptual.VQLPIPSWithDiscriminator",
+                    "params" : {
+                        "disc_conditional": False,
+                        "disc_in_channels": 3,
+                        "disc_start": 0,  # from 0 epoch
+                        "disc_weight": 0.4,
+                        "quant_loss_weight": 1.0,
+                        "entropy_loss_weight": 0.05,
+                        "gen_loss_weight": 0.1,
+                        "lecam_loss_weight": 0.01
+                    }
+                },
+                "n_embed": 1024,
+                "embed_dim": 256,
+                "learning_rate": 1e-4,
+                "l2_normalize": False,
+                "use_entropy_loss": True,
+                "sample_minimization_weight": 1.0,
+                "batch_maximization_weight": 1.0,
+                "use_ema": True,
+                "resume_lr": None,
+                "lr_drop_epoch": [250, 300]
+            }
+        },
+        "data" : {
+            "class_path" : "main.DataModuleFromConfig",
+            "init_args" : {
+                "batch_size": 4,
+                "num_workers": 16,
+                "train": {
+                    "target": "OpenImageTokenizer.IBQ.data.imagenet.ImageNetTrain",
+                    "params": {
+                        "config": {
+                            "size": 256,
+                            "subset": None
+                        }
+                    }
+                },
+                "validation": {
+                    "target": "OpenImageTokenizer.IBQ.data.imagenet.ImageNetValidation",
+                    "params": {
+                        "config": {
+                            "size": 256,
+                            "subset": None
+                        }
+                    }
+                },
+                "test": {
+                    "target": "OpenImageTokenizer.IBQ.data.imagenet.ImageNetValidation",
+                    "params": {
+                        "config": {
+                            "size": 256,
+                            "subset": None
+                        }
+                    }
+                }
+            }
+        },
+        "ckpt_path": None  # to resume
+    },
+    "imagenet256_8192" : {
+        "seed_everything": True,
+        "trainer": {
+            "accelerator": "gpu",
+            "strategy" : "ddp_find_unused_parameters_true",
+            "devices": 8,
+            "num_nodes": 8,
+            "precision": "16-mixed",
+            "max_epochs": 280,
+            "check_val_every_n_epoch": 1,
+            "num_sanity_val_steps": -1,
+            "callbacks" : [
+                {
+                    "class_path" : "lightning.pytorch.callbacks.ModelCheckpoint",
+                    "init_args" : {
+                        "dirpath": "../../checkpoints/vqgan/test",
+                        "save_top_k": -1,  # save all checkpoints
+                        "save_last": True,
+                        "monitor": "train/perceptual_loss"
+                    }
+                },
+                {
+                    "class_path": "lightning.pytorch.callbacks.LearningRateMonitor",
+                    "init_args": {
+                        "logging_interval": "step"
+                    }
+                }
+            ],
+            "logger" : {
+                "class_path" : "lightning.pytorch.loggers.TensorBoardLogger",
+                "init_args" : {
+                    "save_dir": "../../results/vqgan/",
+                    "version": "test",
+                    "name": ""
+                }
+            }
+        },
+        "model" : {
+            "class_path" : "OpenImageTokenizer.IBQ.models.ibqgan.IBQ",
+            "init_args" : {
+                "ddconfig": {
+                    "double_z": False,
+                    "z_channels": 256,
+                    "resolution": 256,
+                    "in_channels": 3,
+                    "out_ch": 3,
+                    "ch": 128,
+                    "ch_mult": [1,1,2,2,4],  # num_down = len(ch_mult)-1
+                    "num_res_blocks": 4,
+                    "attn_resolutions": [16],
+                    "dropout": 0.0
+                },
+                "lossconfig" : {
+                    "target" : "OpenImageTokenizer.IBQ.modules.losses.vqperceptual.VQLPIPSWithDiscriminator",
+                    "params" : {
+                        "disc_conditional": False,
+                        "disc_in_channels": 3,
+                        "disc_start": 0,  # from 0 epoch
+                        "disc_weight": 0.4,
+                        "quant_loss_weight": 1.0,
+                        "entropy_loss_weight": 0.05,
+                        "gen_loss_weight": 0.1,
+                        "lecam_loss_weight": 0.05
+                    }
+                },
+                "n_embed": 8192,
+                "embed_dim": 256,
+                "learning_rate": 1e-4,
+                "l2_normalize": False,
+                "use_entropy_loss": True,
+                "sample_minimization_weight": 1.0,
+                "batch_maximization_weight": 1.0,
+                "entropy_temperature": 0.01,
+                "beta": 0.25,
+                "use_ema": True,
+                "resume_lr": None,
+                "lr_drop_epoch": [250]
+            }
+        },
+        "data" : {
+            "class_path" : "main.DataModuleFromConfig",
+            "init_args" : {
+                "batch_size": 4,
+                "num_workers": 16,
+                "train": {
+                    "target": "OpenImageTokenizer.IBQ.data.imagenet.ImageNetTrain",
+                    "params": {
+                        "config": {
+                            "size": 256,
+                            "subset": None
+                        }
+                    }
+                },
+                "validation": {
+                    "target": "OpenImageTokenizer.IBQ.data.imagenet.ImageNetValidation",
+                    "params": {
+                        "config": {
+                            "size": 256
+                        }
+                    }
+                },
+                "test": {
+                    "target": "OpenImageTokenizer.IBQ.data.imagenet.ImageNetValidation",
+                    "params": {
+                        "config": {
+                            "size": 256
+                        }
+                    }
+                }
+            }
+        },
+        "ckpt_path": None  # to resume
+    },
+    "imagenet256_16384" : {
+        "seed_everything": True,
+        "trainer": {
+            "accelerator": "gpu",
+            "strategy" : "ddp_find_unused_parameters_true",
+            "devices": 8,
+            "num_nodes": 8,
+            "precision": "16-mixed",
+            "max_epochs": 330,
+            "check_val_every_n_epoch": 1,
+            "num_sanity_val_steps": -1,
+            "callbacks" : [
+                {
+                    "class_path" : "lightning.pytorch.callbacks.ModelCheckpoint",
+                    "init_args" : {
+                        "dirpath": "../../checkpoints/vqgan/test",
+                        "save_top_k": -1,  # save all checkpoints
+                        "save_last": True,
+                        "monitor": "train/perceptual_loss"
+                    }
+                },
+                {
+                    "class_path": "lightning.pytorch.callbacks.LearningRateMonitor",
+                    "init_args": {
+                        "logging_interval": "step"
+                    }
+                }
+            ],
+            "logger" : {
+                "class_path" : "lightning.pytorch.loggers.TensorBoardLogger",
+                "init_args" : {
+                    "save_dir": "../../results/vqgan/",
+                    "version": "test",
+                    "name": ""
+                }
+            }
+        },
+        "model" : {
+            "class_path" : "OpenImageTokenizer.IBQ.models.ibqgan.IBQ",
+            "init_args" : {
+                "ddconfig": {
+                    "double_z": False,
+                    "z_channels": 256,
+                    "resolution": 256,
+                    "in_channels": 3,
+                    "out_ch": 3,
+                    "ch": 128,
+                    "ch_mult": [1,1,2,2,4],  # num_down = len(ch_mult)-1
+                    "num_res_blocks": 4,
+                    "attn_resolutions": [16],
+                    "dropout": 0.0
+                },
+                "lossconfig" : {
+                    "target" : "OpenImageTokenizer.IBQ.modules.losses.vqperceptual.VQLPIPSWithDiscriminator",
+                    "params" : {
+                        "disc_conditional": False,
+                        "disc_in_channels": 3,
+                        "disc_start": 0,  # from 0 epoch
+                        "disc_weight": 0.4,
+                        "quant_loss_weight": 1.0,
+                        "entropy_loss_weight": 0.05,
+                        "gen_loss_weight": 0.1,
+                        "lecam_loss_weight": 0.05
+                    }
+                },
+                "n_embed": 16384,
+                "embed_dim": 256,
+                "learning_rate": 1e-4,
+                "l2_normalize": False,
+                "use_entropy_loss": True,
+                "sample_minimization_weight": 1.0,
+                "batch_maximization_weight": 1.0,
+                "entropy_temperature": 0.01,
+                "beta": 0.25,
+                "use_ema": True,
+                "resume_lr": None,
+                "lr_drop_epoch": [250, 330]
+            }
+        },
+        "data" : {
+            "class_path" : "main.DataModuleFromConfig",
+            "init_args" : {
+                "batch_size": 4,
+                "num_workers": 16,
+                "train": {
+                    "target": "OpenImageTokenizer.IBQ.data.imagenet.ImageNetTrain",
+                    "params": {
+                        "config": {
+                            "size": 256,
+                            "subset": None
+                        }
+                    }
+                },
+                "validation": {
+                    "target": "OpenImageTokenizer.IBQ.data.imagenet.ImageNetValidation",
+                    "params": {
+                        "config": {
+                            "size": 256
+                        }
+                    }
+                },
+                "test": {
+                    "target": "OpenImageTokenizer.IBQ.data.imagenet.ImageNetValidation",
+                    "params": {
+                        "config": {
+                            "size": 256
+                        }
+                    }
+                }
+            }
+        },
+        "ckpt_path": None  # to resume
+    },
+    "imagenet256_262144" : {
+        "seed_everything": True,
+        "trainer": {
+            "accelerator": "gpu",
+            "strategy" : "ddp_find_unused_parameters_true",
+            "devices": 8,
+            "num_nodes": 8,
+            "precision": "16-mixed",
+            "max_epochs": 330,
+            "check_val_every_n_epoch": 1,
+            "num_sanity_val_steps": -1,
+            "callbacks" : [
+                {
+                    "class_path" : "lightning.pytorch.callbacks.ModelCheckpoint",
+                    "init_args" : {
+                        "dirpath": "../../checkpoints/vqgan/test",
+                        "save_top_k": -1,  # save all checkpoints
+                        "save_last": True,
+                        "monitor": "train/perceptual_loss"
+                    }
+                },
+                {
+                    "class_path": "lightning.pytorch.callbacks.LearningRateMonitor",
+                    "init_args": {
+                        "logging_interval": "step"
+                    }
+                }
+            ],
+            "logger" : {
+                "class_path" : "lightning.pytorch.loggers.TensorBoardLogger",
+                "init_args" : {
+                    "save_dir": "../../results/vqgan/",
+                    "version": "test",
+                    "name": ""
+                }
+            }
+        },
+        "model" : {
+            "class_path" : "OpenImageTokenizer.IBQ.models.ibqgan.IBQ",
+            "init_args" : {
+                "ddconfig": {
+                    "double_z": False,
+                    "z_channels": 256,
+                    "resolution": 256,
+                    "in_channels": 3,
+                    "out_ch": 3,
+                    "ch": 128,
+                    "ch_mult": [1,1,2,2,4],  # num_down = len(ch_mult)-1
+                    "num_res_blocks": 4,
+                    "attn_resolutions": [16],
+                    "dropout": 0.0
+                },
+                "lossconfig" : {
+                    "target" : "OpenImageTokenizer.IBQ.modules.losses.vqperceptual.VQLPIPSWithDiscriminator",
+                    "params" : {
+                        "disc_conditional": False,
+                        "disc_in_channels": 3,
+                        "disc_start": 0,  # from 0 epoch
+                        "disc_weight": 0.4,
+                        "quant_loss_weight": 1.0,
+                        "entropy_loss_weight": 0.05,
+                        "gen_loss_weight": 0.1,
+                        "lecam_loss_weight": 0.05
+                    }
+                },
+                "n_embed": 262144,
+                "embed_dim": 256,
+                "learning_rate": 1e-4,
+                "l2_normalize": False,
+                "use_entropy_loss": True,
+                "sample_minimization_weight": 1.0,
+                "batch_maximization_weight": 1.0,
+                "entropy_temperature": 0.01,
+                "beta": 0.25,
+                "use_ema": True,
+                "resume_lr": None,
+                "lr_drop_epoch": [250, 330]
+            }
+        },
+        "data" : {
+            "class_path" : "main.DataModuleFromConfig",
+            "init_args" : {
+                "batch_size": 4,
+                "num_workers": 16,
+                "train": {
+                    "target": "OpenImageTokenizer.IBQ.data.imagenet.ImageNetTrain",
+                    "params": {
+                        "config": {
+                            "size": 256,
+                            "subset": None
+                        }
+                    }
+                },
+                "validation": {
+                    "target": "OpenImageTokenizer.IBQ.data.imagenet.ImageNetValidation",
+                    "params": {
+                        "config": {
+                            "size": 256
+                        }
+                    }
+                },
+                "test": {
+                    "target": "OpenImageTokenizer.IBQ.data.imagenet.ImageNetValidation",
+                    "params": {
+                        "config": {
+                            "size": 256
+                        }
+                    }
+                }
+            }
+        },
+        "ckpt_path": None  # to resume
+    }
 }
 
 def get_model_config(model_name):
@@ -512,3 +971,14 @@ def get_model_config(model_name):
         raise ValueError(f"Configuración no encontrada: {config_key}")
     
     return CONFIGS_OPEN_MAGVIT2_IMAGE[config_key]
+
+def get_model_config_IBQ(model_name):
+    if model_name not in MODEL_TO_CONFIG:
+        raise ValueError(f"Modelo no reconocido: {model_name}")
+
+    config_key = MODEL_TO_CONFIG[model_name]
+
+    if config_key not in CONFIGS_IBQ_IMAGE:
+        raise ValueError(f"Configuración no encontrada: {config_key}")
+    
+    return CONFIGS_IBQ_IMAGE[config_key]
