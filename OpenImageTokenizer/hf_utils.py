@@ -25,7 +25,10 @@ MODEL_CHECKPOINT_MAPPING = {
     "TencentARC/IBQ-Tokenizer-1024": "imagenet256_1024.ckpt",
     "TencentARC/IBQ-Tokenizer-8192": "imagenet256_8192.ckpt",
     "TencentARC/IBQ-Tokenizer-16384": "imagenet256_16384.ckpt",
-    "TencentARC/IBQ-Tokenizer-262144": "imagenet256_262144.ckpt"
+    "TencentARC/IBQ-Tokenizer-262144": "imagenet256_262144.ckpt",
+
+    # Video Tokenizer models
+    "TencentARC/Open-MAGVIT2-Tokenizer-262144-Video" : "video_128_262144.ckpt"
 }
 
 # URLs directas para descargar los checkpoints
@@ -37,7 +40,8 @@ MODEL_URLS = {
     "TencentARC/IBQ-Tokenizer-1024": "https://huggingface.co/TencentARC/IBQ-Tokenizer-1024/resolve/main/imagenet256_1024.ckpt",
     "TencentARC/IBQ-Tokenizer-8192": "https://huggingface.co/TencentARC/IBQ-Tokenizer-8192/resolve/main/imagenet256_8192.ckpt",
     "TencentARC/IBQ-Tokenizer-16384": "https://huggingface.co/TencentARC/IBQ-Tokenizer-16384/resolve/main/imagenet256_16384.ckpt",
-    "TencentARC/IBQ-Tokenizer-262144": "https://huggingface.co/TencentARC/IBQ-Tokenizer-262144/resolve/main/imagenet256_262144.ckpt"
+    "TencentARC/IBQ-Tokenizer-262144": "https://huggingface.co/TencentARC/IBQ-Tokenizer-262144/resolve/main/imagenet256_262144.ckpt",
+    "TencentARC/Open-MAGVIT2-Tokenizer-262144-Video" : "https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-262144-Video/resolve/main/video_128_262144.ckpt"
 }
 
 def get_default_cache_dir():

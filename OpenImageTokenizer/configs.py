@@ -502,7 +502,8 @@ MODEL_TO_CONFIG = {
     "TencentARC/IBQ-Tokenizer-1024": "imagenet256_1024",
     "TencentARC/IBQ-Tokenizer-8192": "imagenet256_8192",
     "TencentARC/IBQ-Tokenizer-16384": "imagenet256_16384",
-    "TencentARC/IBQ-Tokenizer-262144": "imagenet256_262144"
+    "TencentARC/IBQ-Tokenizer-262144": "imagenet256_262144",
+    "TencentARC/Open-MAGVIT2-Tokenizer-262144-Video" : "video_262144"
 }
 
 CONFIGS_IBQ_IMAGE = {
@@ -960,6 +961,141 @@ CONFIGS_IBQ_IMAGE = {
     }
 }
 
+CONFIGS_OPEN_MAGVIT2_VIDEO = {
+    "video_262144": {
+        "seed_everything": True,
+        "trainer": {
+            "accelerator": "gpu",
+            "strategy": "ddp_find_unused_parameters_true",
+            "devices": 8,
+            "num_nodes": 8,
+            "precision": "16-mixed",
+            "max_epochs": 2000,
+            "check_val_every_n_epoch": 20,
+            "num_sanity_val_steps": -1,
+            "log_every_n_steps": 100,
+            "callbacks": [
+                {
+                    "class_path": "lightning.pytorch.callbacks.ModelCheckpoint",
+                    "init_args": {
+                        "dirpath": "../../checkpoints/vqgan/test",
+                        "save_top_k": -1  # save all checkpoints
+                    }
+                },
+                {
+                    "class_path": "lightning.pytorch.callbacks.LearningRateMonitor",
+                    "init_args": {
+                        "logging_interval": "step"
+                    }
+                }
+            ],
+            "logger": {
+                "class_path": "lightning.pytorch.loggers.TensorBoardLogger",
+                "init_args": {
+                    "save_dir": "../../results/vqgan/",
+                    "version": "test",
+                    "name": ""
+                }
+            }
+        },
+        "model": {
+            "class_path": "OpenImageTokenizer.Open_MAGVIT2.models.video_lfqgan.VQModel",
+            "init_args": {
+                "ddconfig": {
+                    "double_z": False,
+                    "z_channels": 18,
+                    "resolution": 128,
+                    "in_channels": 3,
+                    "out_ch": 3,
+                    "ch": 128,
+                    "ch_mult": [1,2,2,4],  # num_down = len(ch_mult)-1
+                    "num_res_blocks": 4
+                },
+                "lossconfig": {
+                    "target": "OpenImageTokenizer.Open_MAGVIT2.modules.losses.video_vqperceptual.VQLPIPSWithDiscriminator",
+                    "params": {
+                        "disc_conditional": False,
+                        "disc_in_channels": 3,
+                        "disc_start": 0,  # from 0 epoch
+                        "disc_weight": 0.8,
+                        "gen_loss_weight": 0.1,
+                        "lecam_loss_weight": 0.05,
+                        "codebook_weight": 0.1,
+                        "commit_weight": 0.25,
+                        "codebook_enlarge_ratio": 0,
+                        "codebook_enlarge_steps": 2000
+                    }
+                },
+                "n_embed": 262144,
+                "embed_dim": 18,
+                "learning_rate": 1e-4,
+                "sample_minimization_weight": 1.0,
+                "batch_maximization_weight": 1.0,
+                "scheduler_type": "None",
+                "use_ema": True,
+                "image_pretrain_path" : "../upload_ckpts/Open-MAGVIT2/in1k_128_L/imagenet_128_L.ckpt",
+                "sche_type": "cos",
+                "wpe": 0.01,
+                "wp": 2,
+                "wp0": 0.0,
+                "max_iter": None,
+                "wp_iter": None,
+                "resume_lr": None,
+            }
+        },
+        "data": {
+            "class_path": "main.DataModuleFromConfig",
+            "init_args": {
+                "batch_size": 2,
+                "num_workers": 16,
+                "train": {
+                    "target": "OpenImageTokenizer.Open_MAGVIT2.data.ucf101.VideoDataset",
+                    "params": {
+                        "config": {
+                            "data_folder": "../../data/UCF101",
+                            "size": 128,
+                            "mode" : "train",
+                            "sequence_length" : 17,
+                            "sample_every_n_frames" : 1,
+                            "frame_sample_rate" : 4,
+                            "subset": None
+                        }
+                    }
+                },
+                "validation": {
+                    "target": "OpenImageTokenizer.Open_MAGVIT2.data.ucf101.VideoDataset",
+                    "params": {
+                        "config": {
+                            "data_folder": "../../data/UCF101",
+                            "size": 128,
+                            "mode" : "train",
+                            "sequence_length" : 17,
+                            "sample_every_n_frames" : 1,
+                            "frame_sample_rate" : 4,
+                            "subset": None
+                        }
+                    }
+                },
+                "test": {
+                    "target": "OpenImageTokenizer.Open_MAGVIT2.data.ucf101.VideoDataset",
+                    "params": {
+                        "config": {
+                            "data_folder": "../../data/UCF101",
+                            "size": 128,
+                            "mode" : "train",
+                            "sequence_length" : 17,
+                            "sample_every_n_frames" : 1,
+                            "frame_sample_rate" : 4,
+                            "subset": None
+                        }
+                    }
+                }
+            }
+        },
+        "ckpt_path": None  # to resume
+    }
+}
+
 def get_model_config(model_name):
 
     if model_name not in MODEL_TO_CONFIG:
@@ -982,3 +1118,14 @@ def get_model_config_IBQ(model_name):
         raise ValueError(f"Configuración no encontrada: {config_key}")
     
     return CONFIGS_IBQ_IMAGE[config_key]
+
+def get_model_config_video(model_name):
+    if model_name not in MODEL_TO_CONFIG:
+        raise ValueError(f"Modelo no reconocido: {model_name}")
+
+    config_key = MODEL_TO_CONFIG[model_name]
+
+    if config_key not in CONFIGS_OPEN_MAGVIT2_VIDEO:
+        raise ValueError(f"Configuración no encontrada: {config_key}")
+    
+    return CONFIGS_OPEN_MAGVIT2_VIDEO[config_key]
