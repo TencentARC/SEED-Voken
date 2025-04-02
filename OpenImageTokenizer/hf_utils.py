@@ -28,7 +28,18 @@ MODEL_CHECKPOINT_MAPPING = {
     "TencentARC/IBQ-Tokenizer-262144": "imagenet256_262144.ckpt",
 
     # Video Tokenizer models
-    "TencentARC/Open-MAGVIT2-Tokenizer-262144-Video" : "video_128_262144.ckpt"
+    "TencentARC/Open-MAGVIT2-Tokenizer-262144-Video" : "video_128_262144.ckpt",
+
+    # Samples Open-MAGVIT2 models
+    "TencentARC/Open-MAGVIT2-AR-B-256-resolution" : "AR_256_B.ckpt",
+    "TencentARC/Open-MAGVIT2-AR-L-256-resolution" : "AR_256_L.ckpt",
+    "TencentARC/Open-MAGVIT2-AR-XL-256-resolution" : "AR_256_XL.ckpt",
+
+    # Samples IBQ models
+    "TencentARC/IBQ-AR-B" : "AR_256_B.ckpt",
+    "TencentARC/IBQ-AR-L" : "AR_256_L.ckpt",
+    "TencentARC/IBQ-AR-XL" : "AR_256_XL.ckpt",
+    "TencentARC/IBQ-AR-XXL" : "AR_256_XXL.ckpt"
 }
 
 # URLs directas para descargar los checkpoints
@@ -41,7 +52,14 @@ MODEL_URLS = {
     "TencentARC/IBQ-Tokenizer-8192": "https://huggingface.co/TencentARC/IBQ-Tokenizer-8192/resolve/main/imagenet256_8192.ckpt",
     "TencentARC/IBQ-Tokenizer-16384": "https://huggingface.co/TencentARC/IBQ-Tokenizer-16384/resolve/main/imagenet256_16384.ckpt",
     "TencentARC/IBQ-Tokenizer-262144": "https://huggingface.co/TencentARC/IBQ-Tokenizer-262144/resolve/main/imagenet256_262144.ckpt",
-    "TencentARC/Open-MAGVIT2-Tokenizer-262144-Video" : "https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-262144-Video/resolve/main/video_128_262144.ckpt"
+    "TencentARC/Open-MAGVIT2-Tokenizer-262144-Video" : "https://huggingface.co/TencentARC/Open-MAGVIT2-Tokenizer-262144-Video/resolve/main/video_128_262144.ckpt",
+    "TencentARC/Open-MAGVIT2-AR-B-256-resolution" : "https://huggingface.co/TencentARC/Open-MAGVIT2-AR-B-256-resolution/resolve/main/AR_256_B.ckpt",
+    "TencentARC/Open-MAGVIT2-AR-L-256-resolution" : "https://huggingface.co/TencentARC/Open-MAGVIT2-AR-L-256-resolution/resolve/main/AR_256_L.ckpt",
+    "TencentARC/Open-MAGVIT2-AR-XL-256-resolution" : "https://huggingface.co/TencentARC/Open-MAGVIT2-AR-XL-256-resolution/resolve/main/AR_256_XL.ckpt",
+    "TencentARC/IBQ-AR-B" : "https://huggingface.co/TencentARC/IBQ-AR-B/resolve/main/AR_256_B.ckpt",
+    "TencentARC/IBQ-AR-L" : "https://huggingface.co/TencentARC/IBQ-AR-L/resolve/main/AR_256_L.ckpt",
+    "TencentARC/IBQ-AR-XL" : "https://huggingface.co/TencentARC/IBQ-AR-XL/resolve/main/AR_256_XL.ckpt",
+    "TencentARC/IBQ-AR-XXL" : "https://huggingface.co/TencentARC/IBQ-AR-XXL/resolve/main/AR_256_XXL.ckpt"
 }
 
 def get_default_cache_dir():
