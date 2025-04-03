@@ -52,7 +52,7 @@ Tokenizador visual escalable con alta dimensión de código y alta utilización.
 ## 🛠️ Instalación
 
 ```bash
-pypi no soportado
+pip install OpenImageTokenizer
 ```
 
 O directamente desde el repositorio:
