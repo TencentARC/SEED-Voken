@@ -1,5 +1,7 @@
 <h1 align="center">OpenImageTokenizer 🖼️→🔢</h1>
 
+*Español | [English](README_EN.md)*
+
 <div align="center">
 
 **Una interfaz Python elegante para los tokenizadores visuales de SEED-Voken**
