@@ -1,0 +1,25 @@
+[project]
+name = "OpenImageTokenizer"
+version = "0.1.5"
+description = "OpenImageTokenizer: Based in SEED-Voken A Series of Powerful Visual Tokenizers"
+authors = [
+    { name = "Rivera.ai/Fredy Rivera", email = "riveraaai200678@gmail.com" }
+]
+
+readme = "README.md"
+
+requires-python = ">=3.8"
+dependencies = []
+
+[build-system]
+requires = ["hatchling", "setuptools>=42", "wheel"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["OpenImageTokenizer"]
+
+[tool.setuptools]
+py-modules = []
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements.txt"]}

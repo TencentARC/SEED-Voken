@@ -26,7 +26,7 @@ trainer:
       name:
 
 model:
-  class_path: src.Open_MAGVIT2.models.lfqgan_pretrain.VQModel
+  class_path: OpenImageTokenizer.Open_MAGVIT2.models.lfqgan_pretrain.VQModel
   init_args:
     ddconfig:
       double_z: False
@@ -39,7 +39,7 @@ model:
       num_res_blocks: 4
     
     lossconfig:
-      target: src.Open_MAGVIT2.modules.losses.vqperceptual.VQLPIPSWithDiscriminator
+      target: OpenImageTokenizer.Open_MAGVIT2.modules.losses.vqperceptual.VQLPIPSWithDiscriminator
       params:
         disc_conditional: False
         disc_in_channels: 3
@@ -81,7 +81,7 @@ data:
     batch_size: 8
     num_workers: 16
     train:
-      target: src.Open_MAGVIT2.data.pretrain.LAIONCombineTrain
+      target: OpenImageTokenizer.Open_MAGVIT2.data.pretrain.LAIONCombineTrain
       params:
         config:
           size: 256
@@ -94,13 +94,13 @@ data:
           image_key: [jpg, jpeg.jpg, "jpg.jpg"]
           enable_image: True
     validation:
-      target: src.Open_MAGVIT2.data.imagenet.ImageNetValidation
+      target: OpenImageTokenizer.Open_MAGVIT2.data.imagenet.ImageNetValidation
       params:
         config:
           size: 256
           subset:
     test:
-      target: src.Open_MAGVIT2.data.imagenet.ImageNetValidation
+      target: OpenImageTokenizer.Open_MAGVIT2.data.imagenet.ImageNetValidation
       params:
         config:
           size: 256
