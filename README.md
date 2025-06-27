@@ -36,7 +36,7 @@ The project aims to provide advanced visual tokenizers for autoregressive visual
 </p>
 
 ## 📰 News
-* **[2025.02.14]**:fire::fire::fire: **IBQ is accepted by ICCV 2025.**
+* **[2025.06.26]**:fire::fire::fire: **IBQ is accepted by ICCV 2025.**
 * **[2025.02.14]** The pretrained version of **IBQ** visual tokenizers, which achieves SOTA performance with high code dimension is released.
 * **[2025.02.09]** We release Open-MAGVIT2 Video tokenizers, which achieves SOTA performance compared to OmniTokenizer, LARP and SweetTokenizer. 
 * **[2025.01.21]** Open-MAGVIT2 tokenizers (codebook size of 16384 and 262144) for text-conditional image generation are now released! They are pretrained with large-scale image-text datasets, achieving SOTA performance compared to LlamaGen, Show-o, and Cosmos.
