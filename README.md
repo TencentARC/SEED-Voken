@@ -31,7 +31,6 @@ The project aims to provide advanced visual tokenizers for autoregressive visual
 >   year={2025},
 >   pages={16037-16046}
 > }
-
 > ```
 
 <p align="center">
