@@ -1,10 +1,10 @@
 <div align="center"> 
-<h2>IBQ: Taming Scalable Visual Tokenizer for Autoregressive Image Generation</h2>
+<h2>Scalable Image Tokenization with Index Backpropagation Quantization</h2>
 </div>
 
 <div align="center">
 
-<!-- > [**Taming Scalable Visual Tokenizer for Autoregressive Image Generation**](https://arxiv.org/abs/2412.02692)<br> -->
+<!-- > [**Taming Scalable Image Tokenization with Index Backpropagation Quantization**](https://arxiv.org/abs/2412.02692)<br> -->
 > [Fengyuan Shi*](https://shifengyuan1999.github.io/), [Zhuoyan Luo*](https://robertluo1.github.io/), [Yixiao Ge](https://geyixiao.com/), [Yujiu Yang](https://sites.google.com/view/iigroup-thu/people), [Ying Shan](https://scholar.google.com/citations?user=4oXBp9UAAAAJ&hl=en), [Limin Wang](https://wanglimin.github.io/)
 > <br> Nanjing University, Tsinghua University, ARC Lab Tencent PCG<br>
 </div>

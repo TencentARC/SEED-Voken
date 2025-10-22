@@ -18,17 +18,20 @@ The project aims to provide advanced visual tokenizers for autoregressive visual
 > }
 > ```
 
-> <a href="https://arxiv.org/abs/2412.02692">IBQ: Taming Scalable Visual Tokenizer for Autoregressive Image Generation</a><br>
+> <a href="https://arxiv.org/abs/2412.02692">IBQ: Scalable Image Tokenization with Index Backpropagation Quantization</a><br>
 > [Fengyuan Shi*](https://shifengyuan1999.github.io/), [Zhuoyan Luo*](https://robertluo1.github.io/), [Yixiao Ge](https://geyixiao.com/), [Yujiu Yang](https://sites.google.com/view/iigroup-thu/people), [Ying Shan](https://scholar.google.com/citations?user=4oXBp9UAAAAJ&hl=en), [Limin Wang](https://wanglimin.github.io/)<br>
 > Nanjing University, Tsinghua University, ARC Lab Tencent PCG<br>
 > <a href="./docs/IBQ.md">📚IBQ.md</a>
 > ```
-> @article{shi2024taming,
->   title={Taming Scalable Visual Tokenizer for Autoregressive Image Generation},
+> @InProceedings{Shi_2025_ICCV,
 >   author={Shi, Fengyuan and Luo, Zhuoyan and Ge, Yixiao and Yang, Yujiu and Shan, Ying and Wang, Limin},
->   journal={arXiv preprint arXiv:2412.02692},
->   year={2024}
-> }
+>   title={Scalable Image Tokenization with Index Backpropagation Quantization},
+>   booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV)},
+>   month={October},
+>   year={2025},
+>   pages={16037-16046}
+}
+
 > ```
 
 <p align="center">
