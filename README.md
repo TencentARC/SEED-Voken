@@ -30,7 +30,7 @@ The project aims to provide advanced visual tokenizers for autoregressive visual
 >   month={October},
 >   year={2025},
 >   pages={16037-16046}
-}
+> }
 
 > ```
 
